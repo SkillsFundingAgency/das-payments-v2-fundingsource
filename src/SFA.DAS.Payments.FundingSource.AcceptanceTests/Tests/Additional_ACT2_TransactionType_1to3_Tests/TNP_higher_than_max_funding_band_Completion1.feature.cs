@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
+namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_TransactionType_1To3_Tests
 {
     using TechTalk.SpecFlow;
     
@@ -18,20 +18,20 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Provider earnings and payments where learner completes earlier than planned")]
-    public partial class ProviderEarningsAndPaymentsWhereLearnerCompletesEarlierThanPlannedFeature
+    [NUnit.Framework.DescriptionAttribute("TNP is higher than the maximum funding band, completed on time with full history")]
+    public partial class TNPIsHigherThanTheMaximumFundingBandCompletedOnTimeWithFullHistoryFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "learner_finishes_early_Balancing_Completion.feature"
+#line 1 "TNP_higher_than_max_funding_band_Completion.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Provider earnings and payments where learner completes earlier than planned", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TNP is higher than the maximum funding band, completed on time with full history", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,10 +65,12 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
         
         public virtual void FeatureBackground()
         {
-#line 8
-#line 10
+#line 4
+#line 5
  testRunner.Given("the current processing period is 13", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
+#line 6
+ testRunner.And("the apprenticeship funding band maximum is 9000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
  testRunner.And("a learner with LearnRefNumber learnref1 and Uln 10000 undertaking training with t" +
                     "raining provider 10000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -83,14 +85,8 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
                         "13",
                         "10000",
                         "2",
-                        "3750"});
-            table1.AddRow(new string[] {
-                        "p1",
-                        "13",
-                        "10000",
-                        "3",
-                        "3000"});
-#line 15
+                        "1800"});
+#line 10
  testRunner.And("the payments due component generates the following contract type 2 payable earnin" +
                     "gs:", ((string)(null)), table1, "And ");
 #line hidden
@@ -99,25 +95,23 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Contract Type 2 completion payment")]
         [NUnit.Framework.CategoryAttribute("Non-DAS")]
-        [NUnit.Framework.CategoryAttribute("minimum_tests")]
-        [NUnit.Framework.CategoryAttribute("completion")]
-        [NUnit.Framework.CategoryAttribute("balancing")]
-        [NUnit.Framework.CategoryAttribute("FinishingEarly")]
-        [NUnit.Framework.CategoryAttribute("partial")]
+        [NUnit.Framework.CategoryAttribute("Completion")]
+        [NUnit.Framework.CategoryAttribute("funding_band")]
+        [NUnit.Framework.CategoryAttribute("capping")]
+        [NUnit.Framework.CategoryAttribute("minimum_additional")]
         public virtual void ContractType2CompletionPayment()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 completion payment", new string[] {
                         "Non-DAS",
-                        "minimum_tests",
-                        "completion",
-                        "balancing",
-                        "FinishingEarly",
-                        "partial"});
-#line 28
+                        "Completion",
+                        "funding_band",
+                        "capping",
+                        "minimum_additional"});
+#line 20
 this.ScenarioSetup(scenarioInfo);
-#line 8
+#line 4
 this.FeatureBackground();
-#line 30
+#line 22
  testRunner.When("MASH is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -137,7 +131,7 @@ this.FeatureBackground();
                         "10000",
                         "Completion_2",
                         "CoInvestedSfa_2",
-                        "3375"});
+                        "1620"});
             table2.AddRow(new string[] {
                         "learnref1",
                         "10000",
@@ -146,56 +140,10 @@ this.FeatureBackground();
                         "10000",
                         "Completion_2",
                         "CoInvestedEmployer_3",
-                        "375"});
-#line 32
+                        "180"});
+#line 24
  testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
                     "ed payments:", ((string)(null)), table2, "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Contract Type 2 balancing payment")]
-        public virtual void ContractType2BalancingPayment()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 balancing payment", ((string[])(null)));
-#line 39
-this.ScenarioSetup(scenarioInfo);
-#line 8
-this.FeatureBackground();
-#line 41
- testRunner.When("MASH is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
-                        "LearnRefNumber",
-                        "Ukprn",
-                        "PriceEpisodeIdentifier",
-                        "Period",
-                        "ULN",
-                        "TransactionType",
-                        "FundingSource",
-                        "Amount"});
-            table3.AddRow(new string[] {
-                        "learnref1",
-                        "10000",
-                        "p1",
-                        "13",
-                        "10000",
-                        "Balancing_3",
-                        "CoInvestedSfa_2",
-                        "2700"});
-            table3.AddRow(new string[] {
-                        "learnref1",
-                        "10000",
-                        "p1",
-                        "13",
-                        "10000",
-                        "Balancing_3",
-                        "CoInvestedEmployer_3",
-                        "300"});
-#line 43
- testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
-                    "ed payments:", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
