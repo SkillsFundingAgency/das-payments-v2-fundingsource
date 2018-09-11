@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_TransactionType_1To3_Tests
+namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Payments_V1_ACT2_Minimum_TransTypes_1To3
 {
     using TechTalk.SpecFlow;
     
@@ -18,20 +18,20 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Break in Learning, leaner takes 2 months break")]
-    public partial class BreakInLearningLeanerTakes2MonthsBreakFeature
+    [NUnit.Framework.DescriptionAttribute("Additional payments 16 to 18 framework uplift completion")]
+    public partial class AdditionalPayments16To18FrameworkUpliftCompletionFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Break_In_Learning.feature"
+#line 1 "Additional_Payments_16_to_18_Framework_Uplift_Completion.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Break in Learning, leaner takes 2 months break", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Additional payments 16 to 18 framework uplift completion", "\tAC3-Learner finishes on time, earns on-programme and completion payments. ", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,10 +65,10 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
         
         public virtual void FeatureBackground()
         {
-#line 3
-#line 5
- testRunner.Given("the current processing period is 8", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 7
+#line 8
+#line 10
+ testRunner.Given("the current processing period is 13", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
  testRunner.And("a learner with LearnRefNumber learnref1 and Uln 10000 undertaking training with t" +
                     "raining provider 10000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -79,33 +79,35 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
                         "TransactionType",
                         "Amount"});
             table1.AddRow(new string[] {
-                        "p2",
-                        "7",
+                        "p1",
+                        "13",
                         "10000",
-                        "1",
-                        "1000"});
-#line 9
+                        "2",
+                        "1800"});
+#line 14
  testRunner.And("the payments due component generates the following contract type 2 payable earnin" +
                     "gs:", ((string)(null)), table1, "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Contract Type 2 Learning payment")]
+        [NUnit.Framework.DescriptionAttribute("Contract Type 2 completion payment")]
         [NUnit.Framework.CategoryAttribute("Non-DAS")]
-        [NUnit.Framework.CategoryAttribute("minimum_additional")]
-        [NUnit.Framework.CategoryAttribute("BreakInLearning")]
-        public virtual void ContractType2LearningPayment()
+        [NUnit.Framework.CategoryAttribute("minimum_tests")]
+        [NUnit.Framework.CategoryAttribute("completion")]
+        [NUnit.Framework.CategoryAttribute("partial")]
+        public virtual void ContractType2CompletionPayment()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 Learning payment", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 completion payment", new string[] {
                         "Non-DAS",
-                        "minimum_additional",
-                        "BreakInLearning"});
-#line 17
+                        "minimum_tests",
+                        "completion",
+                        "partial"});
+#line 27
 this.ScenarioSetup(scenarioInfo);
-#line 3
+#line 8
 this.FeatureBackground();
-#line 19
+#line 29
  testRunner.When("MASH is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -120,22 +122,22 @@ this.FeatureBackground();
             table2.AddRow(new string[] {
                         "learnref1",
                         "10000",
-                        "p2",
-                        "7",
+                        "p1",
+                        "13",
                         "10000",
-                        "Learning_1",
+                        "Completion_2",
                         "CoInvestedSfa_2",
-                        "900"});
+                        "1620"});
             table2.AddRow(new string[] {
                         "learnref1",
                         "10000",
-                        "p2",
-                        "7",
+                        "p1",
+                        "13",
                         "10000",
-                        "Learning_1",
+                        "Completion_2",
                         "CoInvestedEmployer_3",
-                        "100"});
-#line 21
+                        "180"});
+#line 31
  testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
                     "ed payments:", ((string)(null)), table2, "Then ");
 #line hidden

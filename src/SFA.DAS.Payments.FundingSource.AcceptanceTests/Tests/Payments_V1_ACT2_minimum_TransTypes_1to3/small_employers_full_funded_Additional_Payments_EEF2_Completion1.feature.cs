@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_TransactionType_1To3_Tests
+namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Payments_V1_ACT2_Minimum_TransTypes_1To3
 {
     using TechTalk.SpecFlow;
     
@@ -18,20 +18,22 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("A non-DAS learner, learner withdraws before qualifying period")]
-    public partial class ANon_DASLearnerLearnerWithdrawsBeforeQualifyingPeriodFeature
+    [NUnit.Framework.DescriptionAttribute("Small_Employers fully funded additional payments EEF2 completion")]
+    public partial class Small_EmployersFullyFundedAdditionalPaymentsEEF2CompletionFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Learner_finishes_early_withdrawal_before_qualifying_period.feature"
+#line 1 "small_employers_full_funded_Additional_Payments_EEF2_Completion.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "A non-DAS learner, learner withdraws before qualifying period", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Small_Employers fully funded additional payments EEF2 completion", "\t\t AC2- 1 learner aged 19-24, non-DAS, with an Education Health Care (EHC) plan, " +
+                    "In paid employment with a small employer at start, is fully funded for on progra" +
+                    "mme and completion payments", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,9 +68,9 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
         public virtual void FeatureBackground()
         {
 #line 8
-#line 9
- testRunner.Given("the current processing period is 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
+#line 10
+ testRunner.Given("the current processing period is 13", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
  testRunner.And("a learner with LearnRefNumber learnref1 and Uln 10000 undertaking training with t" +
                     "raining provider 10000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -80,38 +82,38 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Additional_ACT2_T
                         "Amount"});
             table1.AddRow(new string[] {
                         "p1",
-                        "2",
+                        "13",
                         "10000",
-                        "1",
-                        "-1000"});
-#line 13
+                        "2",
+                        "1500"});
+#line 14
  testRunner.And("the payments due component generates the following contract type 2 payable earnin" +
                     "gs:", ((string)(null)), table1, "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Contract Type 2 Learning payment")]
+        [NUnit.Framework.DescriptionAttribute("Contract Type 2 completion payment")]
         [NUnit.Framework.CategoryAttribute("Non-DAS")]
-        [NUnit.Framework.CategoryAttribute("Learner_finishes_early")]
-        [NUnit.Framework.CategoryAttribute("Withdrawal")]
-        [NUnit.Framework.CategoryAttribute("minimum_additional")]
-        [NUnit.Framework.CategoryAttribute("review")]
-        [NUnit.Framework.CategoryAttribute("refund")]
-        public virtual void ContractType2LearningPayment()
+        [NUnit.Framework.CategoryAttribute("minimum_tests")]
+        [NUnit.Framework.CategoryAttribute("small_employers")]
+        [NUnit.Framework.CategoryAttribute("completion")]
+        [NUnit.Framework.CategoryAttribute("fully_funded")]
+        [NUnit.Framework.CategoryAttribute("partial")]
+        public virtual void ContractType2CompletionPayment()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 Learning payment", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 completion payment", new string[] {
                         "Non-DAS",
-                        "Learner_finishes_early",
-                        "Withdrawal",
-                        "minimum_additional",
-                        "review",
-                        "refund"});
-#line 24
+                        "minimum_tests",
+                        "small_employers",
+                        "completion",
+                        "fully_funded",
+                        "partial"});
+#line 28
 this.ScenarioSetup(scenarioInfo);
 #line 8
 this.FeatureBackground();
-#line 26
+#line 30
  testRunner.When("MASH is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -127,21 +129,12 @@ this.FeatureBackground();
                         "learnref1",
                         "10000",
                         "p1",
-                        "2",
+                        "13",
                         "10000",
-                        "Learning_1",
-                        "CoInvestedSfa_2",
-                        "-900"});
-            table2.AddRow(new string[] {
-                        "learnref1",
-                        "10000",
-                        "p1",
-                        "2",
-                        "10000",
-                        "Learning_1",
-                        "CoInvestedEmployer_3",
-                        "-100"});
-#line 28
+                        "Completion_2",
+                        "FullyFundedSfa_4",
+                        "1500"});
+#line 32
  testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
                     "ed payments:", ((string)(null)), table2, "Then ");
 #line hidden

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
+namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.ACT2_TransTypes_1To3_Basic_Tests
 {
     using TechTalk.SpecFlow;
     
@@ -18,22 +18,20 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Additional payments price change during programme learning support")]
-    public partial class AdditionalPaymentsPriceChangeDuringProgrammeLearningSupportFeature
+    [NUnit.Framework.DescriptionAttribute("TNP is higher than the maximum funding band, continuing")]
+    public partial class TNPIsHigherThanTheMaximumFundingBandContinuingFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Additional_Payments_price_change_during_programme_learning_support.feature"
+#line 1 "TNP_higher_than_max_funding_band_Continuing.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Additional payments price change during programme learning support", "\t\t 671-AC02 Non-DAS learner, levy available, is taking an English or maths qualif" +
-                    "ication, has learning support and the negotiated price changes during the progra" +
-                    "mme", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TNP is higher than the maximum funding band, continuing", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -67,10 +65,12 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
         
         public virtual void FeatureBackground()
         {
-#line 10
-#line 12
- testRunner.Given("the current processing period is 5", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
+#line 4
+#line 5
+ testRunner.Given("the current processing period is 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 6
+ testRunner.And("the apprenticeship funding band maximum is 9000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
  testRunner.And("a learner with LearnRefNumber learnref1 and Uln 10000 undertaking training with t" +
                     "raining provider 10000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -81,12 +81,12 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
                         "TransactionType",
                         "Amount"});
             table1.AddRow(new string[] {
-                        "p2",
-                        "5",
+                        "p1",
+                        "3",
                         "10000",
                         "1",
                         "600"});
-#line 16
+#line 10
  testRunner.And("the payments due component generates the following contract type 2 payable earnin" +
                     "gs:", ((string)(null)), table1, "And ");
 #line hidden
@@ -95,21 +95,21 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Minimum
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Contract Type 2 Learning payment")]
         [NUnit.Framework.CategoryAttribute("Non-DAS")]
-        [NUnit.Framework.CategoryAttribute("minimum_tests")]
-        [NUnit.Framework.CategoryAttribute("Change_in_price")]
-        [NUnit.Framework.CategoryAttribute("partial")]
+        [NUnit.Framework.CategoryAttribute("funding_band")]
+        [NUnit.Framework.CategoryAttribute("capping")]
+        [NUnit.Framework.CategoryAttribute("minimum_additional")]
         public virtual void ContractType2LearningPayment()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contract Type 2 Learning payment", new string[] {
                         "Non-DAS",
-                        "minimum_tests",
-                        "Change_in_price",
-                        "partial"});
-#line 30
+                        "funding_band",
+                        "capping",
+                        "minimum_additional"});
+#line 20
 this.ScenarioSetup(scenarioInfo);
-#line 10
+#line 4
 this.FeatureBackground();
-#line 32
+#line 22
  testRunner.When("MASH is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -124,8 +124,8 @@ this.FeatureBackground();
             table2.AddRow(new string[] {
                         "learnref1",
                         "10000",
-                        "p2",
-                        "5",
+                        "p1",
+                        "3",
                         "10000",
                         "Learning_1",
                         "CoInvestedSfa_2",
@@ -133,13 +133,13 @@ this.FeatureBackground();
             table2.AddRow(new string[] {
                         "learnref1",
                         "10000",
-                        "p2",
-                        "5",
+                        "p1",
+                        "3",
                         "10000",
                         "Learning_1",
                         "CoInvestedEmployer_3",
                         "60"});
-#line 34
+#line 24
  testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
                     "ed payments:", ((string)(null)), table2, "Then ");
 #line hidden
