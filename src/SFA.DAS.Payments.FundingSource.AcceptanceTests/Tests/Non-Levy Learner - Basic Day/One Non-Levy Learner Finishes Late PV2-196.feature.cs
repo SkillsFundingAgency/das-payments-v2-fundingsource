@@ -18,20 +18,20 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Tests.Non_LevyLearner_B
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("One Non-Levy Learner Finishes Late")]
-    public partial class OneNon_LevyLearnerFinishesLateFeature
+    [NUnit.Framework.DescriptionAttribute("One Non-Levy Learner Finishes Late PV2-196")]
+    public partial class OneNon_LevyLearnerFinishesLatePV2_196Feature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "One Non-Levy Learner Finishes Late.feature"
+#line 1 "One Non-Levy Learner Finishes Late PV2-196.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "One Non-Levy Learner Finishes Late", "Provider earnings and payments where learner completes later than planned", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "One Non-Levy Learner Finishes Late PV2-196", "Provider earnings and payments where learner completes later than planned", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -149,10 +149,6 @@ this.FeatureBackground();
         [NUnit.Framework.DescriptionAttribute("A non-DAS learner, learner finishes late - no history")]
         [NUnit.Framework.CategoryAttribute("NonDas_BasicDay")]
         [NUnit.Framework.CategoryAttribute("finishes_late")]
-        [NUnit.Framework.CategoryAttribute("withdrawal")]
-        [NUnit.Framework.CategoryAttribute("NoCompletionPayment")]
-        [NUnit.Framework.CategoryAttribute("NonDas_BasicDay")]
-        [NUnit.Framework.CategoryAttribute("finishes_late")]
         [NUnit.Framework.CategoryAttribute("Learning")]
         [NUnit.Framework.CategoryAttribute("(TT1)")]
         [NUnit.Framework.CategoryAttribute("Completion")]
@@ -163,21 +159,17 @@ this.FeatureBackground();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A non-DAS learner, learner finishes late - no history", null, new string[] {
                         "NonDas_BasicDay",
                         "finishes_late",
-                        "withdrawal",
-                        "NoCompletionPayment",
-                        "NonDas_BasicDay",
-                        "finishes_late",
                         "Learning",
                         "(TT1)",
                         "Completion",
                         "(TT2)",
                         "CoInvested"});
-#line 48
+#line 35
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 49
+#line 36
  testRunner.Given("the current collection period is R05", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -195,10 +187,10 @@ this.FeatureBackground();
                         "5",
                         "Completion (TT2)",
                         "3000"});
-#line 51
+#line 38
  testRunner.And("the required payments component generates the following contract type 2 payable e" +
                     "arnings:", ((string)(null)), table3, "And ");
-#line 56
+#line 43
  testRunner.When("required payments event is received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -231,7 +223,7 @@ this.FeatureBackground();
                         "Completion (TT2)",
                         "CoInvestedEmploer (FS3)",
                         "300"});
-#line 57
+#line 44
  testRunner.Then("the payment source component will generate the following contract type 2 coinvest" +
                     "ed payments:", ((string)(null)), table4, "Then ");
 #line hidden
