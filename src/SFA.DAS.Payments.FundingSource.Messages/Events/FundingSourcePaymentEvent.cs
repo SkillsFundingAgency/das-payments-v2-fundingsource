@@ -1,8 +1,7 @@
-﻿using System;
-using SFA.DAS.Payments.FundingSource.Model.Enum;
-using SFA.DAS.Payments.Messages.Core.Events;
+﻿using SFA.DAS.Payments.FundingSource.Model.Enum;
 using SFA.DAS.Payments.Model.Core;
 using SFA.DAS.Payments.Model.Core.OnProgramme;
+using System;
 
 namespace SFA.DAS.Payments.FundingSource.Messages.Events
 {
@@ -33,7 +32,6 @@ namespace SFA.DAS.Payments.FundingSource.Messages.Events
         public OnProgrammeEarningType OnProgrammeEarningType { get; set; }
 
         public FundingSourceType FundingSourceType { get; set; }
-
 
     }
 }
