@@ -10,7 +10,7 @@ using SFA.DAS.Payments.Core.Configuration;
 using SFA.DAS.Payments.FundingSource.LevyTransactionService.Handlers;
 using SFA.DAS.Payments.Messaging.Serialization;
 using SFA.DAS.Payments.Monitoring.Jobs.Client;
-using SFA.DAS.Payments.Monitoring.Jobs.Messages.Commands;
+using SFA.DAS.Payments.Monitoring.Jobs.DataMessages.Commands;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using SFA.DAS.Payments.ServiceFabric.Core;
 

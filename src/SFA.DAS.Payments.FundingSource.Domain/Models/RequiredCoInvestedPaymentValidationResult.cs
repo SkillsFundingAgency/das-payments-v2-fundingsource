@@ -1,6 +1,4 @@
-﻿
-
-namespace SFA.DAS.Payments.FundingSource.Domain.Models
+﻿namespace SFA.DAS.Payments.FundingSource.Domain.Models
 {
     public class RequiredCoInvestedPaymentValidationResult
     {

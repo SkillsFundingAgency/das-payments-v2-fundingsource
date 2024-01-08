@@ -1,9 +1,8 @@
-﻿using SFA.DAS.Payments.Messages.Core;
+﻿using SFA.DAS.Payments.Messages.Common;
 
 namespace SFA.DAS.Payments.FundingSource.Messages.Events
 {
-    public class SfaFullyFundedFundingSourcePaymentEvent: FundingSourcePaymentEvent, ILeafLevelMessage
+    public class SfaFullyFundedFundingSourcePaymentEvent : FundingSourcePaymentEvent, ILeafLevelMessage
     {
-
     }
 }

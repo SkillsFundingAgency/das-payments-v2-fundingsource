@@ -1,16 +1,15 @@
-﻿using NServiceBus;
-using SFA.DAS.Payments.AcceptanceTests.Core.Data;
-using SFA.DAS.Payments.FundingSource.AcceptanceTests.Data;
-using SFA.DAS.Payments.FundingSource.AcceptanceTests.Handlers;
-using SFA.DAS.Payments.RequiredPayments.Messages.Events;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SFA.DAS.Payments.Messages.Core.Events;
+using Microsoft.ServiceBus.Messaging;
+using SFA.DAS.Payments.FundingSource.AcceptanceTests.Data;
+using SFA.DAS.Payments.FundingSource.AcceptanceTests.Handlers;
+using SFA.DAS.Payments.Messages.Common.Events;
 using SFA.DAS.Payments.Model.Core.Entities;
 using SFA.DAS.Payments.Model.Core.Factories;
 using SFA.DAS.Payments.Model.Core.Incentives;
 using SFA.DAS.Payments.Model.Core.OnProgramme;
+using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -50,7 +49,8 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
         }
 
         [Given(@"the required payments component generates the following contract type (.*) payable earnings:")]
-        public void GivenTheRequiredPaymentsComponentGeneratesTheFollowingContractTypePayableEarnings(ContractType contractType, Table payments)
+        public void GivenTheRequiredPaymentsComponentGeneratesTheFollowingContractTypePayableEarnings(
+            ContractType contractType, Table payments)
         {
             ContractType = contractType;
             RequiredPayments = payments.CreateSet<RequiredPayment>().ToList();
@@ -82,28 +82,29 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
 
         [Then(@"the payment source component will generate the following contract type (.*) coinvested payments:")]
         [Then(@"the payment source component will generate the following contract type (.*) payments:")]
-        public async Task ThenThePaymentSourceComponentWillGenerateTheFollowingContractTypeCoinvestedPayments(ContractType expectedContractType, Table expectedFundingSourcePaymentTable)
+        public async Task ThenThePaymentSourceComponentWillGenerateTheFollowingContractTypeCoinvestedPayments(
+            ContractType expectedContractType, Table expectedFundingSourcePaymentTable)
         {
-            var expectedFundingSourcePaymentEvents = expectedFundingSourcePaymentTable.CreateSet<FundingSourcePayment>();
+            var expectedFundingSourcePaymentEvents =
+                expectedFundingSourcePaymentTable.CreateSet<FundingSourcePayment>();
             await WaitForIt(() =>
             {
                 return expectedFundingSourcePaymentEvents.All(expectedEvent =>
                     FundingSourcePaymentEventHandler.ReceivedEvents.Any(receivedEvent =>
-                         expectedContractType == receivedEvent.ContractType
-                         && TestSession.Learner.LearnRefNumber == receivedEvent?.Learner?.ReferenceNumber
-                         && TestSession.Ukprn == receivedEvent.Ukprn
-                         && expectedEvent.PriceEpisodeIdentifier == receivedEvent.PriceEpisodeIdentifier
-                         && expectedEvent.DeliveryPeriod == receivedEvent.DeliveryPeriod
-                         && expectedEvent.Type == receivedEvent.TransactionType
-                         && expectedEvent.FundingSourceType == receivedEvent.FundingSourceType
-                         && expectedEvent.Amount == receivedEvent.AmountDue
-                   ));
-
-
+                        expectedContractType == receivedEvent.ContractType
+                        && TestSession.Learner.LearnRefNumber == receivedEvent?.Learner?.ReferenceNumber
+                        && TestSession.Ukprn == receivedEvent.Ukprn
+                        && expectedEvent.PriceEpisodeIdentifier == receivedEvent.PriceEpisodeIdentifier
+                        && expectedEvent.DeliveryPeriod == receivedEvent.DeliveryPeriod
+                        && expectedEvent.Type == receivedEvent.TransactionType
+                        && expectedEvent.FundingSourceType == receivedEvent.FundingSourceType
+                        && expectedEvent.Amount == receivedEvent.AmountDue
+                    ));
             }, "Failed to find all the funding source payment events");
         }
 
-        private CalculatedRequiredOnProgrammeAmount BuildApprenticeshipContractTypeRequiredPaymentEvent(RequiredPayment requiredPayment)
+        private CalculatedRequiredOnProgrammeAmount BuildApprenticeshipContractTypeRequiredPaymentEvent(
+            RequiredPayment requiredPayment)
         {
             var paymentEvent = ContractType == ContractType.Act1
                 ? (CalculatedRequiredOnProgrammeAmount)new CalculatedRequiredLevyAmount()
@@ -132,7 +133,8 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
             paymentEvent.AmountDue = requiredPayment.Amount;
             paymentEvent.JobId = TestSession.JobId;
             paymentEvent.EventTime = DateTimeOffset.UtcNow;
-            paymentEvent.CollectionPeriod = CollectionPeriodFactory.CreateFromAcademicYearAndPeriod(AcademicYear, CollectionPeriod);
+            paymentEvent.CollectionPeriod =
+                CollectionPeriodFactory.CreateFromAcademicYearAndPeriod(AcademicYear, CollectionPeriod);
             paymentEvent.DeliveryPeriod = requiredPayment.DeliveryPeriod;
             paymentEvent.IlrSubmissionDateTime = TestSession.IlrSubmissionTime;
             paymentEvent.LearningAim = TestSession.Learner.Course.ToLearningAim();
@@ -153,6 +155,7 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
                     paymentEvent = BuildIncentiveRequiredPaymentEvent(requiredPayment);
                     break;
             }
+
             return paymentEvent;
         }
     }

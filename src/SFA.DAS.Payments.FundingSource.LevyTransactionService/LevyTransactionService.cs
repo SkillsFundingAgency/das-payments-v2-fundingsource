@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -15,14 +14,15 @@ using SFA.DAS.Payments.ServiceFabric.Core;
 namespace SFA.DAS.Payments.FundingSource.LevyTransactionService
 {
     /// <summary>
-    /// An instance of this class is created for each service instance by the Service Fabric runtime.
+    ///     An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
     public class LevyTransactionService : StatelessService
     {
-        private readonly IPaymentLogger logger;
         private readonly ILifetimeScope lifetimeScope;
+        private readonly IPaymentLogger logger;
 
-        public LevyTransactionService(StatelessServiceContext context, IPaymentLogger logger, ILifetimeScope lifetimeScope)
+        public LevyTransactionService(StatelessServiceContext context, IPaymentLogger logger,
+            ILifetimeScope lifetimeScope)
             : base(context)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -30,7 +30,7 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService
         }
 
         /// <summary>
-        /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
+        ///     Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
         /// </summary>
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
@@ -39,7 +39,8 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService
             {
                 return new List<ServiceInstanceListener>
                 {
-                    new ServiceInstanceListener(context => lifetimeScope.Resolve<IStatelessServiceBusBatchCommunicationListener>())
+                    new ServiceInstanceListener(context =>
+                        lifetimeScope.Resolve<IStatelessServiceBusBatchCommunicationListener>())
                 };
             }
             catch (Exception e)
@@ -56,12 +57,13 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService
 
 
         private async Task RunSendOnlyEndpoint()
-        {	        {
-            var endpoint = lifetimeScope.Resolve<EndpointConfiguration>();
-            endpoint.SendOnly();
-            var factory = lifetimeScope.Resolve<IEndpointInstanceFactory>();
-            await factory.GetEndpointInstance();
-        }	        }
-
+        {
+            {
+                var endpoint = lifetimeScope.Resolve<EndpointConfiguration>();
+                endpoint.SendOnly();
+                var factory = lifetimeScope.Resolve<IEndpointInstanceFactory>();
+                await factory.GetEndpointInstance();
+            }
+        }
     }
 }

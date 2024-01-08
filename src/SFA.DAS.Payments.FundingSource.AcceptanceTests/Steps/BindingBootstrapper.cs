@@ -1,10 +1,8 @@
-﻿using Autofac;
-using NServiceBus;
-using SFA.DAS.Payments.AcceptanceTests.Core;
+﻿using NServiceBus;
 using SFA.DAS.Payments.FundingSource.Messages.Events;
-using SFA.DAS.Payments.Messages.Core;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using TechTalk.SpecFlow;
+
 namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
 {
     [Binding]
@@ -17,8 +15,10 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
             endpointConfiguration.Conventions().DefiningEventsAs(type => type.IsEvent<FundingSourcePaymentEvent>());
             var transportConfig = Container.Resolve<TransportExtensions<AzureServiceBusTransport>>();
             var routing = transportConfig.Routing();
-            routing.RouteToEndpoint(typeof(CalculatedRequiredCoInvestedAmount), EndpointNames.NonLevyFundedPaymentsService);
-            routing.RouteToEndpoint(typeof(CalculatedRequiredIncentiveAmount), EndpointNames.NonLevyFundedPaymentsService);
+            routing.RouteToEndpoint(typeof(CalculatedRequiredCoInvestedAmount),
+                EndpointNames.NonLevyFundedPaymentsService);
+            routing.RouteToEndpoint(typeof(CalculatedRequiredIncentiveAmount),
+                EndpointNames.NonLevyFundedPaymentsService);
         }
     }
 }
