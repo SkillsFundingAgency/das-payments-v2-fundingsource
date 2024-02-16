@@ -12,9 +12,9 @@ variables:
 
 resources:
   repositories:
-    - repository: das-payments-v2-datalocks
+    - repository: das-payments-v2-fundingsource
       type: github
-      name: SkillsFundingAgency/das-payments-v2-datalocks
+      name: SkillsFundingAgency/das-payments-v2-fundingsource
       endpoint: SkillsFundingAgency
 
 stages:
