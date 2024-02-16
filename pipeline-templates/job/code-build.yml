@@ -138,6 +138,15 @@ jobs:
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
 
+  # task: NuGetCommand@2 - src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj
+  - task: NuGetCommand@2
+    displayName: Restore - src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj
+    inputs:
+      command: restore
+      projects: src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj
+      noCache: true
+      feedsToUse: 'select'
+      vstsFeed: 'dct-pkg'
 
 
 
@@ -220,8 +229,18 @@ jobs:
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
       modifyOutputPath: true
       
+  - task: DotNetCoreCLI@2
+    displayName: "Publish $(SolutionBaseName)"
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
 
 
+
+      
   - task: CopyFiles@2
     displayName: Copy Files to $(build.artifactstagingdirectory)/publish
     inputs:
@@ -239,5 +258,6 @@ jobs:
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
       DotNetStandardPackagesToPack: |
-        src/SFA.DAS.Payments.FundingSource.Messages/SFA.DAS.Payments.FundingSource.Messages.csproj
-        src/SFA.DAS.Payments.FundingSource.Model/SFA.DAS.Payments.FundingSource.Model.csproj
+        src/SFA.DAS.Payments.FundingSource.Messages/SFA.DAS.Payments.FundingSource.Messages.csproj;
+        src/SFA.DAS.Payments.FundingSource.Model/SFA.DAS.Payments.FundingSource.Model.csproj;
+        src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj;
