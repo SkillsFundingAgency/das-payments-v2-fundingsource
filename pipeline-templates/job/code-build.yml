@@ -137,9 +137,9 @@ jobs:
       artifact: fundingsource-drop
       continueOnError: true
 
-  - template: /azure-pipelines-templates/build/step/nuget-pack.yml
-    parameters:
-      DotNetStandardPackagesToPack: |
-        src/SFA.DAS.Payments.FundingSource.Messages/SFA.DAS.Payments.FundingSource.Messages.csproj;
-        src/SFA.DAS.Payments.FundingSource.Model/SFA.DAS.Payments.FundingSource.Model.csproj;
-        src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj;
+  #- template: /azure-pipelines-templates/build/step/nuget-pack.yml
+  #  parameters:
+  #    DotNetStandardPackagesToPack: |
+  #     src/SFA.DAS.Payments.FundingSource.Messages/SFA.DAS.Payments.FundingSource.Messages.csproj;
+  #      src/SFA.DAS.Payments.FundingSource.Model/SFA.DAS.Payments.FundingSource.Model.csproj;
+  #      src/SFA.DAS.Payments.FundingSource.Messages.Internal/SFA.DAS.Payments.FundingSource.Messages.Internal.csproj;
