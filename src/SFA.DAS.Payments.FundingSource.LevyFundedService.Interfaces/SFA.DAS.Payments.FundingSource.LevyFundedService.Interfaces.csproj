@@ -16,7 +16,7 @@
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="0.1.123" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.1" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.0.14" />
-    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.0" />
+    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

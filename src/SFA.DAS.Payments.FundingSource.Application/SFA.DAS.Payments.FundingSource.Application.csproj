@@ -19,7 +19,7 @@
     <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="1.0.0" />
     <PackageReference Include="SFA.DAS.Payments.PeriodEnd.Messages" Version="1.0.0" />
-    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.0" />
+    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
     <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="1.1.0" />
   </ItemGroup>
 	<ItemGroup>
