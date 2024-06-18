@@ -17,10 +17,11 @@
     <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.1.0" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.4.664" />
     <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
-    <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="0.1.123" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.1" />
+    <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="1.0.3" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.4" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SFA.DAS.Payments.FundingSource.Application\SFA.DAS.Payments.FundingSource.Application.csproj" />
