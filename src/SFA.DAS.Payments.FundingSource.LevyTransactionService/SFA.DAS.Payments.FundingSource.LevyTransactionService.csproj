@@ -19,7 +19,7 @@
     <PackageReference Include="NServiceBus" Version="8.1.1" />
     <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="3.0.0" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.0.1816" />
-    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.0-prerelease-20" />
+    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.0-prerelease-24" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="1.0.3" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="2.0.0-prerelease-4" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />

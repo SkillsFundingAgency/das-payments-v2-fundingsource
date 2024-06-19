@@ -40,7 +40,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             endpointInstance = new Mock<IEndpointInstance>(MockBehavior.Strict);
 
             endpointInstance
-                 .Setup(x => x.Publish(It.IsAny<object>(), It.IsAny<PublishOptions>()))
+                 .Setup(x => x.Publish(It.IsAny<object>(), It.IsAny<PublishOptions>(), CancellationToken.None))
                 .Returns(Task.CompletedTask);
             
             endpointInstanceFactory
@@ -206,13 +206,13 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             endpointInstance
                 .Verify(svc => svc.Publish(It.Is<FoundNotLevyPayerEmployerAccount>(x => x.AccountId == 1),
-                        It.IsAny<PublishOptions>()),
+                        It.IsAny<PublishOptions>(), CancellationToken.None),
                     Times.Once);
             endpointInstance
                 .Verify(svc =>
                         svc.Publish(
                             It.Is<FoundLevyPayerEmployerAccount>(x => new List<long> {2, 3}.Contains(x.AccountId)),
-                            It.IsAny<PublishOptions>()),
+                            It.IsAny<PublishOptions>(), CancellationToken.None),
                     Times.Exactly(2));
         }
 
@@ -269,11 +269,11 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             endpointInstance
                 .Verify(svc => svc.Publish(It.Is<FoundNotLevyPayerEmployerAccount>( x => x.AccountId == 1),
-                    It.IsAny<PublishOptions>()), 
+                    It.IsAny<PublishOptions>(), CancellationToken.None), 
                     Times.Once);
             endpointInstance
                 .Verify(svc => svc.Publish(It.Is<FoundLevyPayerEmployerAccount>(x => x.AccountId == 2),
-                        It.IsAny<PublishOptions>()),
+                        It.IsAny<PublishOptions>(), CancellationToken.None),
                     Times.Once);
         }
 

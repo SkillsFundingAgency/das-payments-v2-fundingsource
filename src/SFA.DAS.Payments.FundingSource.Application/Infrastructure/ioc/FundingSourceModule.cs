@@ -87,7 +87,12 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
                     var accountApiClient = c.Resolve<IAccountApiClient>();
                     var logger = c.Resolve<IPaymentLogger>();
                     var bulkWriter = c.Resolve<ILevyAccountBulkCopyRepository>();
-                    var endpointInstanceFactory = new EndpointInstanceFactory(CreateEndpointConfiguration(c));
+
+                    var endpointConfig= CreateEndpointConfiguration(c);
+                    EndpointInstanceFactory.Initialise(endpointConfig);
+                    var endpointInstanceFactory = new EndpointInstanceFactory();
+
+                    //var endpointInstanceFactory = new EndpointInstanceFactory();
                     var levyFundingSourceRepository = c.Resolve<ILevyFundingSourceRepository>();
 
                     return new ManageLevyAccountBalanceService(accountApiClient, logger, bulkWriter, levyFundingSourceRepository, batchSize, endpointInstanceFactory);

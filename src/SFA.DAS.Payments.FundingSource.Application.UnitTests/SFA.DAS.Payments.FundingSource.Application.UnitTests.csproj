@@ -25,7 +25,7 @@
     <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="3.0.0" />
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.2" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.0-prerelease-20" />
+    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.0-prerelease-24" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
   </ItemGroup>
 
