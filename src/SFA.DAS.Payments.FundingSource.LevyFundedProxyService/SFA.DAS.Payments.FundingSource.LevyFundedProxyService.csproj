@@ -17,19 +17,22 @@
   <ItemGroup>
     <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.4-beta0001" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.0.5" />
-    <PackageReference Include="Microsoft.ServiceFabric" Version="6.5.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="3.4.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal" Version="3.4.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.4.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="3.4.664" />
+    <PackageReference Include="Microsoft.ServiceFabric" Version="11.0.1000" />
+    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data.Interfaces" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="7.0.1816" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
-    <PackageReference Include="SFA.DAS.Payments.Core" Version="1.1.1" />
+    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.0-prerelease-20" />
+    <PackageReference Include="SFA.DAS.Payments.Core" Version="2.0.0-prerelease-20" />
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="1.0.1" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="1.1.1" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.4" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.0-prerelease-20" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="2.0.0-prerelease-4" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.0.14" />
-    <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="1.1.0" />
+    <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="2.0.0-prerelease-5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
   </ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SFA.DAS.Payments.FundingSource.Application\SFA.DAS.Payments.FundingSource.Application.csproj" />

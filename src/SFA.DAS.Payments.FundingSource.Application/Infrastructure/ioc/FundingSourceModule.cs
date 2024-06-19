@@ -131,14 +131,14 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
             var persistence = endpointConfiguration.UsePersistence<AzureStoragePersistence>();
             persistence.ConnectionString(config.StorageConnectionString);
 
-            endpointConfiguration.DisableFeature<NServiceBus.Features.TimeoutManager>();
+
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
             transport.ConnectionString(config.ServiceBusConnectionString)
                 .Transactions(TransportTransactionMode.ReceiveOnly)
-                .RuleNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+                .SubscriptionNamingConvention(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
 
             EndpointConfigurationEvents.OnConfiguringTransport(transport);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
             endpointConfiguration.EnableInstallers();
             endpointConfiguration.EnableCallbacks(makesRequests: false);
             return endpointConfiguration;

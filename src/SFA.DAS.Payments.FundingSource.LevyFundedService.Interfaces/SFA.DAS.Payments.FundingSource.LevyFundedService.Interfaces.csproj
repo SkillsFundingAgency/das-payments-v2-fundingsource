@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ServiceFabric" Version="6.5.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="3.4.664" />
+    <PackageReference Include="Microsoft.ServiceFabric" Version="11.0.1000" />
+    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="7.0.1816" />
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="1.0.1" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="1.0.3" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.4" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="2.0.0-prerelease-4" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.0.14" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
   </ItemGroup>

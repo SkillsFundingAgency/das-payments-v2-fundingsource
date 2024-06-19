@@ -11,14 +11,17 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
-    <PackageReference Include="Autofac.ServiceFabric" Version="2.0.0" />
-    <PackageReference Include="Microsoft.ServiceFabric" Version="6.5.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal" Version="3.4.664" />
-    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.1.0" />
-    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.4.664" />
-    <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
+    <PackageReference Include="Autofac.ServiceFabric" Version="4.0.0" />
+    <PackageReference Include="Microsoft.ServiceFabric" Version="11.0.1000" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data.Interfaces" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal" Version="7.0.1816" />
+    <PackageReference Include="NServiceBus" Version="8.1.1" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.0.1816" />
+    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.0-prerelease-20" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="1.0.3" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.4" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="2.0.0-prerelease-4" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.1" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
