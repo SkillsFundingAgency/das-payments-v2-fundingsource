@@ -87,7 +87,12 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
                     var accountApiClient = c.Resolve<IAccountApiClient>();
                     var logger = c.Resolve<IPaymentLogger>();
                     var bulkWriter = c.Resolve<ILevyAccountBulkCopyRepository>();
-                    var endpointInstanceFactory = new EndpointInstanceFactory(CreateEndpointConfiguration(c));
+
+                    var endpointConfig= CreateEndpointConfiguration(c);
+                    EndpointInstanceFactory.Initialise(endpointConfig);
+                    var endpointInstanceFactory = new EndpointInstanceFactory();
+
+                    //var endpointInstanceFactory = new EndpointInstanceFactory();
                     var levyFundingSourceRepository = c.Resolve<ILevyFundingSourceRepository>();
 
                     return new ManageLevyAccountBalanceService(accountApiClient, logger, bulkWriter, levyFundingSourceRepository, batchSize, endpointInstanceFactory);
@@ -131,14 +136,14 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
             var persistence = endpointConfiguration.UsePersistence<AzureStoragePersistence>();
             persistence.ConnectionString(config.StorageConnectionString);
 
-            endpointConfiguration.DisableFeature<NServiceBus.Features.TimeoutManager>();
+
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
             transport.ConnectionString(config.ServiceBusConnectionString)
                 .Transactions(TransportTransactionMode.ReceiveOnly)
-                .RuleNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+                .SubscriptionNamingConvention(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
 
             EndpointConfigurationEvents.OnConfiguringTransport(transport);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
             endpointConfiguration.EnableInstallers();
             endpointConfiguration.EnableCallbacks(makesRequests: false);
             return endpointConfiguration;

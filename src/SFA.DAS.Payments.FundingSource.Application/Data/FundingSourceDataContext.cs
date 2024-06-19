@@ -66,7 +66,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
         public async Task DeletePreviousSubmissions(long jobId, byte collectionPeriod, short academicYear, DateTime ilrSubmissionDateTime,
             long ukprn)
         {
-            await Database.ExecuteSqlCommandAsync(@"DELETE FROM [Payments2].[FundingSourceLevyTransaction]
+            await Database.ExecuteSqlRawAsync(@"DELETE FROM [Payments2].[FundingSourceLevyTransaction]
                 WHERE [AcademicYear] = @academicYear
                 AND [CollectionPeriod] = @collectionPeriod
                 AND [JobId] != @jobId
@@ -81,7 +81,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
 
         public async Task DeleteCurrentSubmissions(long jobId, byte collectionPeriod, short academicYear, long ukprn)
         {
-            await Database.ExecuteSqlCommandAsync(@"DELETE FROM [Payments2].[FundingSourceLevyTransaction]
+            await Database.ExecuteSqlRawAsync(@"DELETE FROM [Payments2].[FundingSourceLevyTransaction]
                 WHERE [AcademicYear] = @academicYear
                 AND [CollectionPeriod] = @collectionPeriod
                 AND [JobId] = @jobId
