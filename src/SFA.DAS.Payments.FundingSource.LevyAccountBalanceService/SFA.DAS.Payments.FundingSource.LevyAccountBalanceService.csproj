@@ -19,8 +19,8 @@
     <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="3.4.664" />
     <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
     <PackageReference Include="SFA.DAS.Payments.Core" Version="1.1.0" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="1.1.0" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="1.1.0" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.3-prerelease-3" />
+    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.3-prerelease-3" />
     <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="1.1.0" />
   </ItemGroup>
 
