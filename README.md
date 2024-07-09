@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?longCache=true&style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
 
-The Payments V2 Funding Source ServiceFabric application provides functionality for determining how training provider payments are funded, based on the employer's levy status, levy balance and the level of ESFA co-investment that is applicable to the learner.
+The Payments V2 Funding Source ServiceFabric application provides functionality for determining how training provider payments are funded, based on the employer's levy status, levy balance, and the level of ESFA co-investment that applies to the learner.
 
 More information here: https://skillsfundingagency.atlassian.net/wiki/spaces/NDL/pages/533659736/e.+Payment+Funding+Source+Application+DAS+Space
 
@@ -24,9 +24,7 @@ The application also processes incentive payments as applicable to the funding r
 
 ### Pre-Requisites
 
-* An Azure DevBox configured for Payments V2 development
-
-Setup instructions: https://skillsfundingagency.atlassian.net/wiki/spaces/NDL/pages/950927878/Development+Environment+-+Payments+V2+DAS+Space
+Setup instructions can be found at the following link, which will help you set up your environment and access the correct repositories: https://skillsfundingagency.atlassian.net/wiki/spaces/NDL/pages/950927878/Development+Environment+-+Payments+V2+DAS+Space
 
 ### Config
 
