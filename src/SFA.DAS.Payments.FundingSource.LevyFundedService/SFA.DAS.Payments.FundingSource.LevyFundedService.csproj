@@ -26,7 +26,7 @@
     <PackageReference Include="SFA.DAS.Payments.Application" Version="1.1.0" />
     <PackageReference Include="SFA.DAS.Payments.Core" Version="1.1.0" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="0.1.123" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.3-prerelease-3" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.1.0-prerelease-4" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.0" />
     <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="1.1.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
