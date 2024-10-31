@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SFA.DAS.Payments.FundingSource.Domain.Exceptions;
 using SFA.DAS.Payments.FundingSource.Domain.Interface;
 using SFA.DAS.Payments.FundingSource.Domain.Models;
@@ -59,7 +60,7 @@ namespace SFA.DAS.Payments.FundingSource.Domain.UnitTests
             validator.Setup(o => o.Validate(message)).Returns(new List<RequiredCoInvestedPaymentValidationResult>());
             processor = new EmployerCoInvestedPaymentProcessor(validator.Object);
             var payment = processor.Process(message);
-            Assert.AreEqual(expectedAmount, payment.AmountDue);
+            ClassicAssert.AreEqual(expectedAmount, payment.AmountDue);
         }
     }
 }
