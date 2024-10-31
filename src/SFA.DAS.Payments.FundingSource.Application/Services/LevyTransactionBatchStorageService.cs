@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using SFA.DAS.Payments.FundingSource.Messages.Commands;
-using SFA.DAS.Payments.Messages.Core;
+using SFA.DAS.Payments.Messages.Common;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
 {
@@ -94,7 +94,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
             logger.LogDebug($"Got {calculateOnProgrammePaymentCommands.Count} levy transactions.");
 
             //TODO: Update the LevyTransactionModel to hold all RequiredLevyAmountFields and stop storing required payments in the DB.  
-            var requiredLevyAmounts = calculateOnProgrammePaymentCommands.Select(command => 
+            var requiredLevyAmounts = calculateOnProgrammePaymentCommands.Select(command =>
                     mapper.Map<CalculateOnProgrammePayment, CalculatedRequiredLevyAmount>(command))
                 .ToList();
 

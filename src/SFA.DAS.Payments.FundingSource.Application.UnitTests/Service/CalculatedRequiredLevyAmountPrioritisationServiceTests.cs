@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SFA.DAS.Payments.FundingSource.Application.Services;
 using SFA.DAS.Payments.Model.Core;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
@@ -39,7 +40,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, new List<(long, int)>());
 
-           Assert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+           ClassicAssert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, new List<(long, int)>());
 
-            Assert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
         [Test]
@@ -102,7 +103,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             };
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, new List<(long, int)>());
-            Assert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
         
@@ -129,7 +130,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                };
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, providerPriorities);
-            Assert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
 
@@ -157,7 +158,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             };
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, providerPriorities);
-            Assert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue( expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
 
@@ -185,7 +186,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, providerPriorities);
 
-            Assert.IsTrue(expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue(expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
 
         [Test]
@@ -223,7 +224,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             var result = calculatedRequiredLevyAmountPrioritisationService.Prioritise(amounts, providerPriorities);
 
-            Assert.IsTrue(expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
+            ClassicAssert.IsTrue(expectedSequence.SequenceEqual(result.Select(r => r.EventId)));
         }
     }
 }
