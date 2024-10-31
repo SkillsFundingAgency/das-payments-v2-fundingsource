@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
 using NServiceBus.Features;
 using SFA.DAS.Payments.Application.Infrastructure.Ioc;
@@ -22,19 +23,19 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService.Infrastructure.I
         protected override void Load(ContainerBuilder builder)
         {
             builder.Register(c =>
-                {
-                    var appConfig = c.Resolve<IApplicationConfiguration>();
-                    var configHelper = c.Resolve<IConfigurationHelper>();
-                    return new StatelessServiceBusBatchCommunicationListener(
-                        configHelper.GetConnectionString("ServiceBusConnectionString"),
-                        appConfig.EndpointName,
-                        appConfig.FailedMessagesQueue,
-                        c.Resolve<IPaymentLogger>(),
-                        c.Resolve<IContainerScopeFactory>(),
-                        c.Resolve<ITelemetry>(),
-                        c.Resolve<IMessageDeserializer>(),
-                        c.Resolve<IApplicationMessageModifier>());
-                })
+            {
+                var appConfig = c.Resolve<IApplicationConfiguration>();
+                var configHelper = c.Resolve<IConfigurationHelper>();
+                return new StatelessServiceBusBatchCommunicationListener(
+                    configHelper.GetConnectionString("ServiceBusConnectionString"),
+                    appConfig.EndpointName,
+                    appConfig.FailedMessagesQueue,
+                    c.Resolve<IPaymentLogger>(),
+                    c.Resolve<IContainerScopeFactory>(),
+                    c.Resolve<ITelemetry>(),
+                    c.Resolve<IMessageDeserializer>(),
+                    c.Resolve<IApplicationMessageModifier>());
+            })
                 .As<IStatelessServiceBusBatchCommunicationListener>()
                 .SingleInstance();
 
@@ -45,7 +46,6 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService.Infrastructure.I
             builder.RegisterType<CalculateOnProgrammePaymentHandler>()
                 .As<IHandleMessageBatches<CalculateOnProgrammePayment>>()
                 .InstancePerLifetimeScope();
-
             builder.RegisterType<JobMessageClientFactory>().AsImplementedInterfaces().InstancePerLifetimeScope();
         }
 
@@ -60,21 +60,18 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService.Infrastructure.I
             conventions
                 .DefiningCommandsAs(t => t.IsAssignableTo<JobsCommand>());
 
-            var persistence = endpointConfiguration.UsePersistence<AzureStoragePersistence>();
-            persistence.ConnectionString(config.StorageConnectionString);
-
-            endpointConfiguration.DisableFeature<TimeoutManager>();
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
             transport
                 .ConnectionString(configHelper.GetConnectionString("ServiceBusConnectionString"))
                 .Transactions(TransportTransactionMode.ReceiveOnly)
-                .RuleNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+                .SubscriptionRuleNamingConvention(messageType =>
+                    messageType.FullName?.Split('.').LastOrDefault() ?? messageType.Name);
 
             endpointConfiguration.SendFailedMessagesTo(config.FailedMessagesQueue);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
             endpointConfiguration.EnableInstallers();
 
-            endpointConfiguration.RegisterComponents(cfg => cfg.RegisterSingleton(logger));
+            endpointConfiguration.RegisterComponents(cfg => cfg.AddSingleton(logger));
             endpointConfiguration.SendOnly();
             return endpointConfiguration;
         }

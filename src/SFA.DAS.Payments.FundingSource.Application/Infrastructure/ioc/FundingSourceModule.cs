@@ -17,6 +17,7 @@ using SFA.DAS.Payments.FundingSource.Application.Data;
 using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using SFA.DAS.Payments.ServiceFabric.Core.Infrastructure.Cache;
+using Autofac.Core.Lifetime;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
 {
@@ -87,7 +88,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
                     var accountApiClient = c.Resolve<IAccountApiClient>();
                     var logger = c.Resolve<IPaymentLogger>();
                     var bulkWriter = c.Resolve<ILevyAccountBulkCopyRepository>();
-                    var endpointInstanceFactory = new EndpointInstanceFactory(CreateEndpointConfiguration(c));
+                    EndpointInstanceFactory.Initialise(CreateEndpointConfiguration(c));
+                    var endpointInstanceFactory = c.Resolve<IEndpointInstanceFactory>();
+                    endpointInstanceFactory.GetEndpointInstance().ConfigureAwait(false);
                     var levyFundingSourceRepository = c.Resolve<ILevyFundingSourceRepository>();
 
                     return new ManageLevyAccountBalanceService(accountApiClient, logger, bulkWriter, levyFundingSourceRepository, batchSize, endpointInstanceFactory);
@@ -128,17 +131,18 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
             conventions.DefiningCommandsAs(type => (type.Namespace?.StartsWith("SFA.DAS.Payments") ?? false) && (type.Namespace?.Contains(".Messages.Commands") ?? false));
             conventions.DefiningEventsAs(type => (type.Namespace?.StartsWith("SFA.DAS.Payments") ?? false) && (type.Namespace?.Contains(".Messages.Events") ?? false));
 
-            var persistence = endpointConfiguration.UsePersistence<AzureStoragePersistence>();
+            var persistence = endpointConfiguration.UsePersistence<AzureTablePersistence>();
             persistence.ConnectionString(config.StorageConnectionString);
 
-            endpointConfiguration.DisableFeature<NServiceBus.Features.TimeoutManager>();
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
-            transport.ConnectionString(config.ServiceBusConnectionString)
+            transport
+                .ConnectionString(config.ServiceBusConnectionString)
                 .Transactions(TransportTransactionMode.ReceiveOnly)
-                .RuleNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+                .SubscriptionRuleNamingConvention(messageType =>
+                    messageType.FullName?.Split('.').LastOrDefault() ?? messageType.Name);
 
             EndpointConfigurationEvents.OnConfiguringTransport(transport);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
             endpointConfiguration.EnableInstallers();
             endpointConfiguration.EnableCallbacks(makesRequests: false);
             return endpointConfiguration;

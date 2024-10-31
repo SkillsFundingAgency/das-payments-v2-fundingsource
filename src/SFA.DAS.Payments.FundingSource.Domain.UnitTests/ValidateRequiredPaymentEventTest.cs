@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using SFA.DAS.Payments.FundingSource.Domain.Models;
 using SFA.DAS.Payments.FundingSource.Domain.Services;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace SFA.DAS.Payments.FundingSource.Domain.UnitTests
             var validator = new ValidateRequiredPaymentEvent();
             var results = validator.Validate(message);
 
-            Assert.IsNotNull(results);
-            Assert.AreEqual((int)RequiredPaymentEventValidationRules.ZeroSfaContributionPercentage, (int)results.First().Rule);
+            ClassicAssert.IsNotNull(results);
+            ClassicAssert.AreEqual((int)RequiredPaymentEventValidationRules.ZeroSfaContributionPercentage, (int)results.First().Rule);
         }
 
     }

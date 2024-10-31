@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net472;net6</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.7-prerelease-35" />
+		<PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.7-prerelease-35" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.Payments.FundingSource.Model\SFA.DAS.Payments.FundingSource.Model.csproj" />
-    <ProjectReference Include="..\SFA.DAS.Payments.Messages.Core\SFA.DAS.Payments.Messages.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,8 +30,10 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                     .ForMember(dest => dest.InstalmentAmount, opt => opt.MapFrom(src => src.InstalmentAmount))
                     .ForMember(dest => dest.NumberOfInstalments, opt => opt.MapFrom(src => src.NumberOfInstalments))
                     .ForMember(dest => dest.ApprenticeshipId, opt => opt.MapFrom(src => src.ApprenticeshipId))
-                    .ForMember(dest => dest.ApprenticeshipPriceEpisodeId, opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.UseValue(FundingPlatformType.SubmitLearnerData));
+                    .ForMember(dest => dest.ApprenticeshipPriceEpisodeId,
+                        opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
+                    .ForMember(dest => dest.FundingPlatformType,
+                        opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>();
                 cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>();
@@ -64,8 +66,10 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
 
                 cfg.CreateMap<CalculatedRequiredOnProgrammeAmount, EmployerCoInvestedFundingSourcePaymentEvent>()
                     .Include<CalculatedRequiredCoInvestedAmount, EmployerCoInvestedFundingSourcePaymentEvent>()
-                    .ForMember(dest => dest.FundingSourceType, opt => opt.UseValue(FundingSourceType.CoInvestedEmployer))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingSourceType,
+                        opt => opt.MapFrom(src => FundingSourceType.CoInvestedEmployer))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
                     ;
 
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, EmployerCoInvestedFundingSourcePaymentEvent>()
@@ -73,16 +77,20 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
 
                 cfg.CreateMap<CalculatedRequiredOnProgrammeAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .Include<CalculatedRequiredCoInvestedAmount, SfaCoInvestedFundingSourcePaymentEvent>()
-                    .ForMember(dest => dest.FundingSourceType, opt => opt.UseValue(FundingSourceType.CoInvestedSfa))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingSourceType,
+                        opt => opt.MapFrom(src => FundingSourceType.CoInvestedSfa))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
                     ;
 
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
 
                 cfg.CreateMap<CalculatedRequiredOnProgrammeAmount, SfaFullyFundedFundingSourcePaymentEvent>()
-                    .ForMember(dest => dest.FundingSourceType, opt => opt.UseValue(FundingSourceType.FullyFundedSfa))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingSourceType,
+                        opt => opt.MapFrom(src => FundingSourceType.FullyFundedSfa))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
                     ;
 
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, FundingSourcePaymentEvent>()
@@ -110,7 +118,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
 
                 cfg.CreateMap<CalculatedRequiredIncentiveAmount, SfaFullyFundedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(source => (TransactionType)source.Type))
-                    .ForMember(dest => dest.FundingSourceType, opt => opt.UseValue(FundingSourceType.FullyFundedSfa))
+                    .ForMember(dest => dest.FundingSourceType,
+                        opt => opt.MapFrom(src => FundingSourceType.FullyFundedSfa))
                     ;
 
                 cfg.CreateMap<FundingSourcePayment, FundingSourcePaymentEvent>()
@@ -140,12 +149,14 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                 cfg.CreateMap<LevyAccountModel, LevyAccountModel>();
 
                 cfg.CreateMap<CalculateOnProgrammePayment, CalculatedRequiredLevyAmount>()
-                    .ForMember(dest => dest.ContractType, opt => opt.UseValue(ContractType.Act1))
-                    .ForMember(dest => dest.JobId, opt => opt.UseValue(-1))
-                    .ForMember(dest => dest.IlrSubmissionDateTime, opt => opt.UseValue(new DateTime(1753,1,1)))
-                    .ForMember(dest => dest.ClawbackSourcePaymentEventId, opt => opt.UseValue(Guid.Empty))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
+                    .ForMember(dest => dest.ContractType, opt => opt.MapFrom(src => ContractType.Act1))
+                    .ForMember(dest => dest.JobId, opt => opt.MapFrom(src => -1))
+                    .ForMember(dest => dest.IlrSubmissionDateTime, opt => opt.MapFrom(src => new DateTime(1753, 1, 1)))
+                    .ForMember(dest => dest.ClawbackSourcePaymentEventId, opt => opt.MapFrom(src => Guid.Empty))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingPlatformType,
+                        opt => opt.MapFrom(source => source.FundingPlatformType));
 
             });
         }
