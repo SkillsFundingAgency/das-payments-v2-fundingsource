@@ -30,7 +30,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                     .ForMember(dest => dest.InstalmentAmount, opt => opt.MapFrom(src => src.InstalmentAmount))
                     .ForMember(dest => dest.NumberOfInstalments, opt => opt.MapFrom(src => src.NumberOfInstalments))
                     .ForMember(dest => dest.ApprenticeshipId, opt => opt.MapFrom(src => src.ApprenticeshipId))
-                    .ForMember(dest => dest.ApprenticeshipPriceEpisodeId,                         opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
+                    .ForMember(dest => dest.ApprenticeshipPriceEpisodeId, opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData));  //For now the default mapping is Submit Learner, this may change if/when Flexi do incentives, redundancy and refunds
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>();
