@@ -16,7 +16,7 @@
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.0-prerelease-47" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="2.0.0-prerelease-751" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.2.0-prerelease-960" />
-    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.4-prerelease-1148" />
+    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.4-prerelease-22" />
   </ItemGroup>
 
   <ItemGroup>

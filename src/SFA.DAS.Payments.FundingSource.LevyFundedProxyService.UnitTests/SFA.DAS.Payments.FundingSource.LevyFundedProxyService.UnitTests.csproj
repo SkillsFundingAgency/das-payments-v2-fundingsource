@@ -11,6 +11,7 @@
     <PackageReference Include="nunit" Version="4.2.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.4-prerelease-22" />
   </ItemGroup>
 
   <ItemGroup>
