@@ -18,12 +18,14 @@
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.4.664" />-->
     <!--<PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="3.4.664" />-->
 
-    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.6-prerelease-22" />
-    <PackageReference Include="SFA.DAS.Payments.Core" Version="2.0.6-prerelease-22" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.6-prerelease-22" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.6-prerelease-22" />
-    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="1.0.4-prerelease-22" />
-    <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="2.0.3-prerelease-5" />
+    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.6-prerelease-31" />
+    <PackageReference Include="SFA.DAS.Payments.Core" Version="2.0.6-prerelease-31" />
+    <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.0-prerelease-48" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.6-prerelease-31" />
+    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.6-prerelease-31" />
+    <PackageReference Include="SFA.DAS.Payments.PeriodEnd.Messages" Version="0.1.39-prerelease-20" />
+    <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="0.1.160-prerelease-23" />
+    <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="2.0.4-prerelease-8" />
 
   </ItemGroup>
 
