@@ -18,8 +18,10 @@
     <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.4-beta0001" />
     <PackageReference Include="ESFA.DC.Logging" Version="0.1.4-beta0001" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.0.5" />
-    <!--<PackageReference Include="Microsoft.ServiceFabric.Actors" Version="3.4.664" />
-    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.4.664" />-->
+    <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal" Version="7.0.1816" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.0.1816" />
     <PackageReference Include="NServiceBus" Version="8.1.1" />
     <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="3.0.0" />
     <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="3.2.1" />
@@ -27,11 +29,11 @@
 
     <PackageReference Include="SFA.DAS.Payments.Application" Version="2.0.7-prerelease-34" />
     <PackageReference Include="SFA.DAS.Payments.Core" Version="2.0.7-prerelease-34" />
-    <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.0-prerelease-48" />
+    <!--<PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.0-prerelease-48" />-->
     <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.0.7-prerelease-34" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.7-prerelease-34" />
+    <!--<PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.0.7-prerelease-34" />-->
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.2.1-prerelease-940" />
-    <PackageReference Include="SFA.DAS.Payments.PeriodEnd.Messages" Version="0.1.39-prerelease-20" />
+    <!--<PackageReference Include="SFA.DAS.Payments.PeriodEnd.Messages" Version="0.1.39-prerelease-20" />-->
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="0.1.160-prerelease-23" />
     <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="2.0.4-prerelease-10" />
   </ItemGroup>

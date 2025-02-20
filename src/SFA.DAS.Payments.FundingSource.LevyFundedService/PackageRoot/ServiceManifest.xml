@@ -12,7 +12,6 @@
             <ReplicatorEndpoint Name="LevyFundedServiceActorServiceReplicatorEndpoint" />
             <ReplicatorConfigSection Name="LevyFundedServiceActorServiceReplicatorConfig" />
             <ReplicatorSecurityConfigSection Name="LevyFundedServiceActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="LevyFundedServiceActorServiceLocalStoreConfig" />
             <ServiceEndpointV2_1 Name="LevyFundedServiceActorServiceEndpointV2_1" />
           </GeneratedNames>
         </Extension>
