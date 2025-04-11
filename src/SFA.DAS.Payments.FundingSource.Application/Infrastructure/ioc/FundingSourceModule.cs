@@ -38,7 +38,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
             builder.RegisterType<EmployerCoInvestedPaymentProcessor>().As<IEmployerCoInvestedPaymentProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<SfaCoInvestedPaymentProcessor>().As<ISfaCoInvestedPaymentProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<LevyBalanceService>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<ReliableCollectionCache<CalculatedRequiredLevyAmount>>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            /*builder.RegisterType<ReliableCollectionCache<CalculatedRequiredLevyAmount>>().AsImplementedInterfaces().InstancePerLifetimeScope();*/
             builder.RegisterType<ReliableCollectionCache<List<string>>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<LevyMessageRoutingService>().AsImplementedInterfaces();
             builder.RegisterType<PeriodEndService>().AsImplementedInterfaces().InstancePerLifetimeScope();
