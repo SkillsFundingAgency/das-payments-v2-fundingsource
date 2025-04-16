@@ -60,6 +60,9 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService.Infrastructure.I
             conventions
                 .DefiningCommandsAs(t => t.IsAssignableTo<JobsCommand>());
 
+            var persistence = endpointConfiguration.UsePersistence<AzureTablePersistence>();
+            persistence.ConnectionString(config.StorageConnectionString);
+
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
             transport
                 .ConnectionString(configHelper.GetConnectionString("ServiceBusConnectionString"))
