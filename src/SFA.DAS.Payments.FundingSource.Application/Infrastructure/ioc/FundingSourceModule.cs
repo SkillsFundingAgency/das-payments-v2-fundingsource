@@ -18,6 +18,7 @@ using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using SFA.DAS.Payments.ServiceFabric.Core.Infrastructure.Cache;
 using Autofac.Core.Lifetime;
+using SFA.DAS.Payments.Application.Infrastructure.Ioc.Modules;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
 {
@@ -89,7 +90,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
                     var logger = c.Resolve<IPaymentLogger>();
                     var bulkWriter = c.Resolve<ILevyAccountBulkCopyRepository>();
 
-                    var endpointInstanceFactory = new EndpointInstanceFactory(CreateEndpointConfiguration(c));
+                    EndpointInstanceFactory.Initialise(CreateEndpointConfiguration(c));
+                    var endpointInstanceFactory = c.Resolve<IEndpointInstanceFactory>();
+                    
 
                     var levyFundingSourceRepository = c.Resolve<ILevyFundingSourceRepository>();
 
@@ -123,7 +126,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
         private EndpointConfiguration CreateEndpointConfiguration(IComponentContext container)
         {
             var config = container.Resolve<IApplicationConfiguration>();
-
+            
             var endpointConfiguration = new EndpointConfiguration(config.EndpointName);
 
             var conventions = endpointConfiguration.Conventions();
