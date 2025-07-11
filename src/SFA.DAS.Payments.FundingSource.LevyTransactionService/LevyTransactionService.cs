@@ -56,12 +56,10 @@ namespace SFA.DAS.Payments.FundingSource.LevyTransactionService
 
 
         private async Task RunSendOnlyEndpoint()
-        {	        {
+        {	        
             var endpoint = lifetimeScope.Resolve<EndpointConfiguration>();
             endpoint.SendOnly();
-            var factory = lifetimeScope.Resolve<IEndpointInstanceFactory>();
-            await factory.GetEndpointInstance();
-        }	        }
+        }	        
 
     }
 }
