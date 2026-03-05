@@ -1,0 +1,64 @@
+﻿using SFA.DAS.Payments.Application.Infrastructure.Logging;
+using SFA.DAS.Payments.EarningEvents.Messages.Events;
+using SFA.DAS.Payments.FundingSource.Application.Interfaces;
+using SFA.DAS.Payments.FundingSource.Application.Repositories;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SFA.DAS.Payments.FundingSource.Application.Services
+{
+    public class ReceivedDasEarningsService : IReceivedDasEarningsService
+    {
+        private readonly ILevyTransactionRepository repository;
+        private readonly IPaymentLogger logger;
+
+        public ReceivedDasEarningsService(ILevyTransactionRepository repository, IPaymentLogger logger)
+        {
+            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public async Task RemovePreviousEarningsInCurrentCollection(DasEarningsReceivedEvent message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
+            var courseCode = message.CourseCode ?? string.Empty;
+            var period = message.CollectionPeriod?.Period ?? 0;
+            var ukprn = message.UKPRN;
+            var uln = message.ULN;
+            var learningAimReference = message.LearningAimReference ?? string.Empty;
+
+            string logContext = $"CourseCode: {courseCode}, CollectionPeriod: {period}, UKPRN: {ukprn}, ULN: {uln}, LearningAimReference: {learningAimReference}";
+
+            logger.LogInfo($"Looking in Levy Transactions table with {logContext}");
+
+            try
+            {
+                var levyTransaction = await repository.GetLevyTransactions(courseCode, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
+
+                if (levyTransaction is null)
+                {
+                    logger.LogInfo($"No Levy Transactions found for {logContext}");
+                    return;
+                }
+
+                // If incoming earnings id is newer than stored one, remove the stored levy transaction(s)
+                if (message.EarningsId.CompareTo(levyTransaction.EarningEventId) > 0)
+                {
+                    await repository.DeleteLevyTransaction(levyTransaction, CancellationToken.None).ConfigureAwait(false);
+                    logger.LogInfo($"Deleted levy transaction(s) for {logContext}");
+                }
+                else
+                {
+                    logger.LogInfo($"Existing levy transaction(s) are newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransaction.EarningEventId}");
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"Error while getting or deleting levy transactions for {logContext}", e);
+                throw;
+            }
+        }
+    }
+}

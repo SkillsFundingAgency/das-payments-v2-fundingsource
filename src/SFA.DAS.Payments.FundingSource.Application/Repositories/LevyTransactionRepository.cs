@@ -7,6 +7,7 @@ using SFA.DAS.Payments.Model.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
         Task SaveLevyTransactions(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken);
 
         Task SaveLevyTransactionsIndividually(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken);
+
+        Task<LevyTransactionModel> GetLevyTransactions(string CourseCode, byte Period, long UKPRN, long ULN, string LearningAimReference);
+        
+        Task DeleteLevyTransaction(LevyTransactionModel levyTransactionModel, CancellationToken cancellationToken);
+
     }
 
     public class LevyTransactionRepository : ILevyTransactionRepository
@@ -28,6 +34,30 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
         {
             this.dataContextFactory = dataContextFactory ?? throw new ArgumentNullException(nameof(dataContextFactory));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public async Task DeleteLevyTransaction(LevyTransactionModel levyTransactionModel, CancellationToken cancellationToken)
+        {
+            using var context = (FundingSourceDataContext)dataContextFactory.Create();
+            context.ChangeTracker.AutoDetectChangesEnabled = false;
+            context.LevyTransactions.Remove(levyTransactionModel);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<LevyTransactionModel> GetLevyTransactions(string CourseCode, byte Period, long UKPRN, long ULN, string LearningAimReference)
+        {
+            using var context = (FundingSourceDataContext)dataContextFactory.Create();
+            var levyTransactions = await context.LevyTransactions
+                        .AsNoTracking()
+                        .Where(x =>
+                            x.Ukprn == UKPRN
+                            //&& x.CourseCode == CourseCode &&
+                            && x.CollectionPeriod == Period
+                            && x.LearnerUln == ULN 
+                            && x.LearningAimReference == LearningAimReference)
+                        .FirstOrDefaultAsync();
+
+            return levyTransactions;
         }
 
         public async Task SaveLevyTransactions(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken)
