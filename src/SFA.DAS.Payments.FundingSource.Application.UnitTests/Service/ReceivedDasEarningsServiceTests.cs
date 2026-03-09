@@ -48,7 +48,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ReturnsAsync((LevyTransactionModel)null);
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message);
+            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference), Times.Once);
@@ -60,7 +60,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         {
             // Arrange
             var existingEarningId = Guid.NewGuid();
-            var messageEarningId = Guid.NewGuid(); 
+            var messageEarningId = Guid.NewGuid();
             existingEarningId = new Guid("00000000-0000-0000-0000-000000000001");
             messageEarningId = new Guid("00000000-0000-0000-0000-000000000002");
 
@@ -89,7 +89,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .Verifiable();
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message);
+            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.DeleteLevyTransaction(levyModel, It.IsAny<CancellationToken>()), Times.Once);
@@ -122,7 +122,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ReturnsAsync(levyModel);
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message);
+            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.DeleteLevyTransaction(It.IsAny<LevyTransactionModel>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -149,7 +149,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ThrowsAsync(ex);
 
             // Act & Assert
-            var thrown = Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemovePreviousEarningsInCurrentCollection(message));
+            var thrown = Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None));
             Assert.That(thrown, Is.SameAs(ex));
         }
     }

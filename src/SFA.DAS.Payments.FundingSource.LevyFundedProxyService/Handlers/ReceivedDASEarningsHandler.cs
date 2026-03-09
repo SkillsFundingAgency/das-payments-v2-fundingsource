@@ -1,21 +1,24 @@
-﻿using NServiceBus;
+﻿using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
+using NServiceBus;
 using SFA.DAS.Payments.Application.Infrastructure.Logging;
 using SFA.DAS.Payments.EarningEvents.Messages.Events;
 using SFA.DAS.Payments.FundingSource.Application.Interfaces;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.FundingSource.LevyFundedProxyService.Handlers
 {
     public class ReceivedDASEarningsHandler : IHandleMessages<DasEarningsReceivedEvent>
     {
+        private readonly IActorProxyFactory proxyFactory;
         private readonly IPaymentLogger logger;
-        private readonly IReceivedDasEarningsService receivedDasEarningsService;
 
-        public ReceivedDASEarningsHandler(IPaymentLogger logger, IReceivedDasEarningsService receivedDasEarningsService)
+        public ReceivedDASEarningsHandler(IPaymentLogger logger, IActorProxyFactory proxyFactory)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.receivedDasEarningsService = receivedDasEarningsService ?? throw new ArgumentNullException(nameof(receivedDasEarningsService));
+            this.proxyFactory = proxyFactory ?? throw new ArgumentNullException(nameof(proxyFactory));
         }
 
         public async Task Handle(DasEarningsReceivedEvent message, IMessageHandlerContext context)
@@ -29,7 +32,9 @@ namespace SFA.DAS.Payments.FundingSource.LevyFundedProxyService.Handlers
 
             try
             {
-                await receivedDasEarningsService.RemovePreviousEarningsInCurrentCollection(message).ConfigureAwait(false);
+                var actorId = new ActorId(message.EarningsId.ToString());
+                var actor = proxyFactory.CreateActorProxy<IReceivedDasEarningsService>(new Uri("fabric:/SFA.DAS.Payments.FundingSource.ServiceFabric/ReceivedDasEarningsService"), actorId);
+                await actor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None).ConfigureAwait(false);
                 logger.LogInfo($"Finished DasEarningsReceived event. {logContext}");
             }
             catch (Exception e)
