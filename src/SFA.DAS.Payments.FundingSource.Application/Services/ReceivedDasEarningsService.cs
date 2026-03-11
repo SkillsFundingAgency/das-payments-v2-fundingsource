@@ -35,7 +35,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
 
             try
             {
-                var levyTransaction = await levyTransactionRepository.GetLevyTransactions(courseCode, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
+                var levyTransaction = await levyTransactionRepository.GetLevyTransactionAsync(courseCode, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
 
                 if (levyTransaction is null)
                 {

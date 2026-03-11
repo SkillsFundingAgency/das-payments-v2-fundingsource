@@ -44,14 +44,14 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             };
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
+                .Setup(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
                 .ReturnsAsync((LevyTransactionModel)null);
 
             // Act
             await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
-            _repositoryMock.Verify(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference), Times.Once);
+            _repositoryMock.Verify(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference), Times.Once);
             _repositoryMock.Verify(r => r.DeleteLevyTransaction(It.IsAny<LevyTransactionModel>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
@@ -80,7 +80,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             };
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
+                .Setup(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
                 .ReturnsAsync(levyModel);
 
             _repositoryMock
@@ -118,7 +118,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             };
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
+                .Setup(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
                 .ReturnsAsync(levyModel);
 
             // Act
@@ -145,7 +145,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             var ex = new InvalidOperationException("repo failure");
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactions(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
+                .Setup(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference))
                 .ThrowsAsync(ex);
 
             // Act & Assert
