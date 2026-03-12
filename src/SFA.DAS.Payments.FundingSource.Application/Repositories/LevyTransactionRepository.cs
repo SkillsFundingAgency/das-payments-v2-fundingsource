@@ -19,8 +19,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
 
         Task SaveLevyTransactionsIndividually(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken);
 
-        Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, byte Period, long UKPRN, long ULN, string LearningAimReference);
-        
+        Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, short AcademicYear, byte Period, long UKPRN, long ULN, string LearningAimReference);
+
         Task DeleteLevyTransaction(LevyTransactionModel levyTransactionModel, CancellationToken cancellationToken);
 
     }
@@ -44,22 +44,24 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, byte Period, long UKPRN, long ULN, string LearningAimReference)
+        public async Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, short AcademicYear, byte Period, long UKPRN, long ULN, string LearningAimReference)
         {
             using var context = (FundingSourceDataContext)dataContextFactory.Create();
             var levyTransactions = await context.LevyTransactions
                         .AsNoTracking()
                         .Where(x =>
                             x.Ukprn == UKPRN
+                            && x.AcademicYear == AcademicYear
                             && x.CourseCode == CourseCode
                             && x.CollectionPeriod == Period
-                            && x.LearnerUln == ULN 
+                            && x.LearnerUln == ULN
                             && x.LearningAimReference == LearningAimReference)
                             .Select(x => new LevyTransactionModel
                             {
                                 CourseCode = x.CourseCode,
                                 Ukprn = x.Ukprn,
                                 LearnerUln = x.LearnerUln,
+                                AcademicYear = x.AcademicYear,
                                 CollectionPeriod = x.CollectionPeriod,
                                 LearningAimReference = x.LearningAimReference
                             })

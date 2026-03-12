@@ -21,21 +21,35 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
 
         public async Task RemovePreviousEarningsInCurrentCollection(DasEarningsReceivedEvent message, CancellationToken cancellationToken)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
 
-            var courseCode = message.CourseCode ?? string.Empty;
-            var period = message.CollectionPeriod?.Period ?? 0;
+            if (string.IsNullOrWhiteSpace(message.CourseCode))
+                throw new ArgumentException("CourseCode must be provided", nameof(message));
+
+            if (message.CollectionPeriod?.AcademicYear == null)
+                throw new ArgumentException("AcademicYear must be provided", nameof(message));
+
+            if (message.CollectionPeriod?.Period == null)
+                throw new ArgumentException("CollectionPeriod must be provided", nameof(message));
+
+            if (string.IsNullOrWhiteSpace(message.LearningAimReference))
+                throw new ArgumentException("LearningAimReference must be provided", nameof(message));
+
+            var courseCode = message.CourseCode;
+            var academicYear = message.CollectionPeriod.AcademicYear;
+            var period = message.CollectionPeriod.Period;
             var ukprn = message.UKPRN;
             var uln = message.ULN;
-            var learningAimReference = message.LearningAimReference ?? string.Empty;
+            var learningAimReference = message.LearningAimReference;
 
-            string logContext = $"CourseCode: {courseCode}, CollectionPeriod: {period}, UKPRN: {ukprn}, ULN: {uln}, LearningAimReference: {learningAimReference}";
+            string logContext = $"CourseCode: {courseCode}, AcademicYear: {academicYear}, CollectionPeriod: {period}, UKPRN: {ukprn}, ULN: {uln}, LearningAimReference: {learningAimReference}";
 
             logger.LogInfo($"Looking in Levy Transactions table with {logContext}");
 
             try
             {
-                var levyTransaction = await levyTransactionRepository.GetLevyTransactionAsync(courseCode, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
+                var levyTransaction = await levyTransactionRepository.GetLevyTransactionAsync(courseCode, academicYear, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
 
                 if (levyTransaction is null)
                 {
