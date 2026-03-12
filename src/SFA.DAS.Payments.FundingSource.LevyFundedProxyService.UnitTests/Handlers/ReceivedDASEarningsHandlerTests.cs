@@ -46,7 +46,7 @@ namespace SFA.DAS.Payments.FundingSource.LevyFundedProxyService.UnitTests.Handle
             {
                 EarningsId = Guid.NewGuid(),
                 CourseCode = "COURSE1",
-                CollectionPeriod = new CollectionPeriod { Period = 3 },
+                CollectionPeriod = new CollectionPeriod { Period = 3, AcademicYear = 2425 },
                 UKPRN = 12345678,
                 ULN = 87654321,
                 LearningAimReference = "LAR"
@@ -103,7 +103,7 @@ namespace SFA.DAS.Payments.FundingSource.LevyFundedProxyService.UnitTests.Handle
             {
                 EarningsId = Guid.NewGuid(),
                 CourseCode = "COURSE2",
-                CollectionPeriod = new CollectionPeriod { Period = 1 },
+                CollectionPeriod = new CollectionPeriod { Period = 1, AcademicYear = 2425 },
                 UKPRN = 11111111,
                 ULN = 22222222,
                 LearningAimReference = "REF"
