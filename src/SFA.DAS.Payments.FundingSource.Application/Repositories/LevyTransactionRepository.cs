@@ -44,18 +44,18 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, short AcademicYear, byte Period, long UKPRN, long ULN, string LearningAimReference)
+        public async Task<LevyTransactionModel> GetLevyTransactionAsync(string courseCode, short academicYear, byte period, long ukprn, long uln, string learningAimReference)
         {
             using var context = (FundingSourceDataContext)dataContextFactory.Create();
             var levyTransactions = await context.LevyTransactions
                         .AsNoTracking()
                         .Where(x =>
-                            x.Ukprn == UKPRN
-                            && x.AcademicYear == AcademicYear
-                            && x.CourseCode == CourseCode
-                            && x.CollectionPeriod == Period
-                            && x.LearnerUln == ULN
-                            && x.LearningAimReference == LearningAimReference)
+                            x.Ukprn == ukprn
+                            && x.AcademicYear == academicYear
+                            && x.CourseCode == courseCode
+                            && x.CollectionPeriod == period
+                            && x.LearnerUln == uln
+                            && x.LearningAimReference == learningAimReference)
                             .Select(x => new LevyTransactionModel
                             {
                                 CourseCode = x.CourseCode,
