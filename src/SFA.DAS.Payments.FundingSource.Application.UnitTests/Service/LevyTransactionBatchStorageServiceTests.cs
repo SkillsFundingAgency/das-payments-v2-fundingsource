@@ -166,12 +166,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 calculatedRequiredLevyAmount.FundingPlatformType == levyTransactionModel.FundingPlatformType &&
                 calculatedRequiredLevyAmount.CourseType == levyTransactionModel.CourseType &&
                 (calculatedRequiredLevyAmount.LearningAim.CourseCode ?? "") == (levyTransactionModel.CourseCode ?? "") &&
-                calculatedRequiredLevyAmount.LearningAim.LearningType ==
-                    levyTransactionModel.LearningType switch
-                    {
-                        LearningType.ApprenticeshipUnit => TrainingType.ApprenticeshipUnit,
-                        _ => throw new ArgumentOutOfRangeException(nameof(levyTransactionModel), levyTransactionModel.LearningType, "Unsupported LearningType for TrainingType mapping.")
-                    }
+                calculatedRequiredLevyAmount.LearningType == levyTransactionModel.LearningType
             );
         }
 

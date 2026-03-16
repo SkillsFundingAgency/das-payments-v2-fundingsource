@@ -71,11 +71,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
                 FundingPlatformType = levyAmount.FundingPlatformType,
                 CourseCode = levyAmount.LearningAim.CourseCode,
                 CourseType = levyAmount.CourseType,
-                LearningType = levyAmount.LearningAim.LearningType switch
-                {
-                    TrainingType.ApprenticeshipUnit => LearningType.ApprenticeshipUnit,
-                    _ => throw new ArgumentOutOfRangeException(nameof(levyAmount), levyAmount.LearningAim.LearningType, "Unsupported LearningType value.")
-                },
+                LearningType = levyAmount.LearningType
             }).ToList();
             cancellationToken.ThrowIfCancellationRequested();
 
