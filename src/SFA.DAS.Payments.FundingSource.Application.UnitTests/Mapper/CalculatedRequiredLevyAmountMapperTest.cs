@@ -144,7 +144,10 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 ContractType = ContractType.Act1,
                 ApprenticeshipEmployerType = ApprenticeshipEmployerType.Levy,
                 ApprenticeshipId = 12,
-                AgeAtStartOfLearning = 17
+                AgeAtStartOfLearning = 17,
+                CourseCode = "COURSE1",
+                CourseType = CourseType.Apprenticeship,
+                LearningType = LearningType.Apprenticeship
             };
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
