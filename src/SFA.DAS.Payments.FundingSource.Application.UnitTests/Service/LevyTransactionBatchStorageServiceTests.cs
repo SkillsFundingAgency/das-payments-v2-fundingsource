@@ -166,7 +166,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 calculatedRequiredLevyAmount.FundingPlatformType == levyTransactionModel.FundingPlatformType &&
                 calculatedRequiredLevyAmount.CourseType == levyTransactionModel.CourseType &&
                 (calculatedRequiredLevyAmount.LearningAim.CourseCode ?? "") == (levyTransactionModel.CourseCode ?? "") &&
-                calculatedRequiredLevyAmount.LearningType == levyTransactionModel.LearningType
+                calculatedRequiredLevyAmount.LearningAim.LearningType == levyTransactionModel.LearningType
             );
         }
 

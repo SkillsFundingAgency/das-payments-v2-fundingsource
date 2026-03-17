@@ -71,7 +71,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
                 FundingPlatformType = levyAmount.FundingPlatformType,
                 CourseCode = levyAmount.LearningAim.CourseCode,
                 CourseType = levyAmount.CourseType,
-                LearningType = levyAmount.LearningType
+                LearningType = levyAmount.LearningAim.LearningType
             }).ToList();
             cancellationToken.ThrowIfCancellationRequested();
 
