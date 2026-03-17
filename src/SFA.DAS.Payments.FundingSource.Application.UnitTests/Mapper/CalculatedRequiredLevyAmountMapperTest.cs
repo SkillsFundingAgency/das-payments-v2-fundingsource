@@ -129,7 +129,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 OnProgrammeEarningType = OnProgrammeEarningType.Learning,
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    LearningType = LearningType.Apprenticeship
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -147,7 +148,6 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 AgeAtStartOfLearning = 17,
                 CourseCode = "COURSE1",
                 CourseType = CourseType.Apprenticeship,
-                LearningType = LearningType.Apprenticeship
             };
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
