@@ -1,7 +1,10 @@
-﻿using SFA.DAS.Payments.Application.Infrastructure.Logging;
+﻿using AutoMapper;
+using SFA.DAS.Payments.Application.Infrastructure.Logging;
 using SFA.DAS.Payments.Core;
 using SFA.DAS.Payments.FundingSource.Application.Extensions;
 using SFA.DAS.Payments.FundingSource.Application.Repositories;
+using SFA.DAS.Payments.FundingSource.Messages.Commands;
+using SFA.DAS.Payments.Model.Core;
 using SFA.DAS.Payments.Model.Core.Entities;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
 using System;
@@ -9,9 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using SFA.DAS.Payments.FundingSource.Messages.Commands;
-using SFA.DAS.Payments.Messages.Common;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
 {
@@ -68,7 +68,10 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
                 LearningStartDate = levyAmount.LearningStartDate,
                 SfaContributionPercentage = levyAmount.SfaContributionPercentage,
                 TransactionType = levyAmount.TransactionType,
-                FundingPlatformType = levyAmount.FundingPlatformType
+                FundingPlatformType = levyAmount.FundingPlatformType,
+                CourseCode = levyAmount.LearningAim.CourseCode,
+                CourseType = levyAmount.CourseType,
+                LearningType = levyAmount.LearningAim.LearningType
             }).ToList();
             cancellationToken.ThrowIfCancellationRequested();
 
