@@ -33,7 +33,12 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                     .ForMember(dest => dest.ApprenticeshipPriceEpisodeId,
                         opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
                     .ForMember(dest => dest.FundingPlatformType,
-                        opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData));
+                        opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData))
+                    .ForMember(dest => dest.LearningType,
+                        opt => opt.MapFrom(src => src.LearningAim.LearningType))
+                    .ForMember(dest => dest.FundingLineType, opt => opt.MapFrom(src => src.ReportingAimFundingLineType));
+                    //.ForMember(dest => dest.LearningType,
+                    //    opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>();
                 cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>();
@@ -81,7 +86,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                         opt => opt.MapFrom(src => FundingSourceType.CoInvestedSfa))
                     .ForMember(dest => dest.AgeAtStartOfLearning,
                         opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    ;
+                ;
 
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
@@ -111,7 +116,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType))
-                    ;
+                ;
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, RequiredPayment>();
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, RequiredCoInvestedPayment>();

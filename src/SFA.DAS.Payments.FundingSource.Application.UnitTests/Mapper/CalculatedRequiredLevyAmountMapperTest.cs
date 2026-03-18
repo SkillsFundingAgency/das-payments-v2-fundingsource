@@ -282,6 +282,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             expectedEvent.ApprenticeshipEmployerType = requiredPaymentEvent.ApprenticeshipEmployerType;
             expectedEvent.AgeAtStartOfLearning = requiredPaymentEvent.AgeAtStartOfLearning;
             expectedEvent.FundingPlatformType = requiredPaymentEvent.FundingPlatformType;
+            expectedEvent.LearningType = requiredPaymentEvent.LearningType;
+            expectedEvent.CourseType = requiredPaymentEvent.CourseType;
+            expectedEvent.FundingLineType = requiredPaymentEvent.ReportingAimFundingLineType;
         }
     }
 }

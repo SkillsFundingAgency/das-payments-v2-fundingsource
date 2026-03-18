@@ -71,7 +71,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 ApprenticeshipPriceEpisodeId = 1,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                LearningType= LearningType.Apprenticeship,
+                CourseType= CourseType.Apprenticeship,
             };
             
             expectedEvent = new CalculatedRequiredLevyAmount
@@ -116,7 +118,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 OnProgrammeEarningType = OnProgrammeEarningType.Balancing,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                LearningType = LearningType.Apprenticeship,
+                CourseType = CourseType.Apprenticeship,
             };
             
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
