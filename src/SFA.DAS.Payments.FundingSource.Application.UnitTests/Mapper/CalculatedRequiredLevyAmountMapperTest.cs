@@ -19,7 +19,6 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
     {
         private IMapper autoMapper;
         private MapperConfiguration mapperConfiguration;
-        private CalculatedRequiredLevyAmount requiredPaymentEvent;
         private CalculateOnProgrammePayment onProgrammePaymentCommand;
 
         [SetUp]
@@ -130,7 +129,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 LearningAim = new LearningAim
                 {
                     FrameworkCode = 403,
-                    LearningType = LearningType.Apprenticeship
+                    LearningType = LearningType.Apprenticeship,
+                    CourseCode = "COURSE1"
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -146,8 +146,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 ApprenticeshipEmployerType = ApprenticeshipEmployerType.Levy,
                 ApprenticeshipId = 12,
                 AgeAtStartOfLearning = 17,
-                CourseCode = "COURSE1",
                 CourseType = CourseType.Apprenticeship,
+                FundingPlatformType = FundingPlatformType.DigitalApprenticeshipService,
+                ReportingAimFundingLineType = "funding line type"
             };
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
@@ -179,6 +180,11 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             actualEvent.EventId = expectedEvent.EventId;
             actualEvent.Should().BeEquivalentTo(expectedEvent);
             actualEvent.AgeAtStartOfLearning.Should().Be(17);
+            actualEvent.FundingPlatformType.Should().Be(expectedEvent.FundingPlatformType);
+            actualEvent.LearningAim.CourseCode.Should().Be(expectedEvent.LearningAim.CourseCode);
+            actualEvent.ReportingAimFundingLineType.Should().Be(expectedEvent.ReportingAimFundingLineType);
+            actualEvent.LearningAim.LearningType.Should().Be(expectedEvent.LearningAim.LearningType);
+            actualEvent.CourseType.Should().Be(expectedEvent.CourseType);
         }
 
         [Test]
@@ -267,10 +273,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             expectedEvent.Ukprn = 10000;
             expectedEvent.AmountDue = 55;
             expectedEvent.TransactionType = TransactionType.Learning;
-            expectedEvent.LearningAim = new LearningAim
-            {
-                FrameworkCode = 403
-            };
+            expectedEvent.LearningAim = requiredPaymentEvent.LearningAim;
             expectedEvent.DeliveryPeriod = 1;
             expectedEvent.IlrSubmissionDateTime = DateTime.Today;
             expectedEvent.RequiredPaymentEventId = requiredPaymentEvent.EventId;
@@ -282,9 +285,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             expectedEvent.ApprenticeshipEmployerType = requiredPaymentEvent.ApprenticeshipEmployerType;
             expectedEvent.AgeAtStartOfLearning = requiredPaymentEvent.AgeAtStartOfLearning;
             expectedEvent.FundingPlatformType = requiredPaymentEvent.FundingPlatformType;
-            expectedEvent.LearningType = requiredPaymentEvent.LearningType;
             expectedEvent.CourseType = requiredPaymentEvent.CourseType;
-            expectedEvent.FundingLineType = requiredPaymentEvent.ReportingAimFundingLineType;
+            expectedEvent.ReportingAimFundingLineType = requiredPaymentEvent.ReportingAimFundingLineType;
         }
     }
 }

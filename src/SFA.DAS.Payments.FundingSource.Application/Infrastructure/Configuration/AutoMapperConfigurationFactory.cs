@@ -34,25 +34,29 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                         opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
                     .ForMember(dest => dest.FundingPlatformType,
                         opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData))
-                    .ForMember(dest => dest.LearningType,
-                        opt => opt.MapFrom(src => src.LearningAim.LearningType))
-                    .ForMember(dest => dest.FundingLineType, opt => opt.MapFrom(src => src.ReportingAimFundingLineType));
-                    //.ForMember(dest => dest.LearningType,
-                    //    opt => opt.MapFrom(src => src.CourseType));
-
-                cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>();
-                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>();
-                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaFullyFundedFundingSourcePaymentEvent>();
+                    .ForMember(dest => dest.ReportingAimFundingLineType, opt => opt.MapFrom(src => src.ReportingAimFundingLineType));
+                    
+                cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
+                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
+                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaFullyFundedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, LevyFundingSourcePaymentEvent>()
-                    .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId, opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
+                    .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId,
+                        opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingPlatformType,
+                        opt => opt.MapFrom(source => source.FundingPlatformType))
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, TransferFundingSourcePaymentEvent>()
                     .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId, opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
                     .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
+                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType))
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, FundingSourcePaymentEvent>()
                     .Include<CalculatedRequiredLevyAmount, LevyFundingSourcePaymentEvent>()

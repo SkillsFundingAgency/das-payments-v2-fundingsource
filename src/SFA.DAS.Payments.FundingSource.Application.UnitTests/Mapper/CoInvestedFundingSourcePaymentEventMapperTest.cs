@@ -84,8 +84,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 FundingSourceType = FundingSourceType.CoInvestedSfa,
                 AccountId = 1000000,
                 ApprenticeshipEmployerType = requiredCoInvestedAmount.ApprenticeshipEmployerType,
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
-                LearningType = requiredCoInvestedAmount.LearningType,
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData
             };
 
             var actualSfaCoInvestedPayment = coInvestedFundingMapper.MapToCoInvestedPaymentEvent(requiredCoInvestedAmount, coInvestedPayment);
@@ -126,8 +125,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 FundingSourceType = FundingSourceType.CoInvestedEmployer,
                 AccountId = 1000000,
                 ApprenticeshipEmployerType = requiredCoInvestedAmount.ApprenticeshipEmployerType,
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
-                LearningType=requiredCoInvestedAmount.LearningAim.LearningType
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData
             };
             
             var actualEmployerCoInvestedPayment = coInvestedFundingMapper.MapToCoInvestedPaymentEvent(requiredCoInvestedAmount, coInvestedPayment);

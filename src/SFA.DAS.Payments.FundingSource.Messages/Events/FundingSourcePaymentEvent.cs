@@ -21,11 +21,7 @@ namespace SFA.DAS.Payments.FundingSource.Messages.Events
         public FundingPlatformType FundingPlatformType { get; set; }
 
         public CourseType CourseType { get; set; }
-
-        public LearningType LearningType { get; set; }
-
-        public string FundingLineType { get; set; }
-
+        
         private static Type[] inheritors;
         private static Type[] GetInheritors()
         {

@@ -45,7 +45,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    LearningType = LearningType.Apprenticeship,
+                    CourseCode = "COURSE1"
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -72,8 +74,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
                 FundingPlatformType = FundingPlatformType.SubmitLearnerData,
-                LearningType= LearningType.Apprenticeship,
-                CourseType= CourseType.Apprenticeship,
+                CourseType = CourseType.Apprenticeship
             };
             
             expectedEvent = new CalculatedRequiredLevyAmount
@@ -93,7 +94,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    CourseCode = "COURSE1",
+                    LearningType = LearningType.Apprenticeship
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -119,7 +122,6 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
                 FundingPlatformType = FundingPlatformType.SubmitLearnerData,
-                LearningType = LearningType.Apprenticeship,
                 CourseType = CourseType.Apprenticeship,
             };
             
