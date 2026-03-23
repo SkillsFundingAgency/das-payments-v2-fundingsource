@@ -45,7 +45,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    LearningType = LearningType.Apprenticeship,
+                    CourseCode = "COURSE1"
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -71,7 +73,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 ApprenticeshipPriceEpisodeId = 1,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                CourseType = CourseType.Apprenticeship
             };
             
             expectedEvent = new CalculatedRequiredLevyAmount
@@ -91,7 +94,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    CourseCode = "COURSE1",
+                    LearningType = LearningType.Apprenticeship
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -116,7 +121,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 OnProgrammeEarningType = OnProgrammeEarningType.Balancing,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                CourseType = CourseType.Apprenticeship,
             };
             
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
