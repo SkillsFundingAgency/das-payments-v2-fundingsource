@@ -1,19 +1,26 @@
-﻿using SFA.DAS.Payments.Application.Infrastructure.Logging;
+﻿
 using SFA.DAS.Payments.EarningEvents.Messages.Events;
-using SFA.DAS.Payments.FundingSource.Application.Interfaces;
 using SFA.DAS.Payments.FundingSource.Application.Repositories;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
+using Microsoft.ServiceFabric.Actors.Runtime;
+using Microsoft.ServiceFabric.Actors;
+using SFA.DAS.Payments.Application.Infrastructure.Logging;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
 {
-    public class ReceivedDasEarningsService : IReceivedDasEarningsService
+    public interface IReceivedDasEarningsProcessor
+    {
+        Task RemovePreviousEarningsInCurrentCollection(DasEarningsReceivedEvent message, CancellationToken cancellationToken);
+    }
+
+    public class ReceivedDasEarningsProcessor : IReceivedDasEarningsProcessor
     {
         private readonly ILevyTransactionRepository levyTransactionRepository;
         private readonly IPaymentLogger logger;
 
-        public ReceivedDasEarningsService(ILevyTransactionRepository repository, IPaymentLogger logger)
+        public ReceivedDasEarningsProcessor(ILevyTransactionRepository repository, IPaymentLogger logger)
         {
             this.levyTransactionRepository = repository ?? throw new ArgumentNullException(nameof(repository));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -44,7 +51,6 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
             var learningAimReference = message.LearningAimReference;
 
             string logContext = $"CourseCode: {courseCode}, AcademicYear: {academicYear}, CollectionPeriod: {period}, UKPRN: {ukprn}, ULN: {uln}, LearningAimReference: {learningAimReference}";
-
             logger.LogInfo($"Looking in Levy Transactions table with {logContext}");
 
             try
