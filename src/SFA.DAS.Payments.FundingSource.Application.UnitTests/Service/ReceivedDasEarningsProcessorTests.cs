@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 {
     [TestFixture]
-    public class ReceivedDasEarningsServiceTests
+    public class ReceivedDasEarningsProcessorTests
     {
         private Mock<ILevyTransactionRepository> _repositoryMock = null!;
         private Mock<IPaymentLogger> _loggerMock = null!;
-        private ReceivedDasEarningsService _service = null!;
+        private ReceivedDasEarningsProcessor _processor = null!;
 
         [SetUp]
         public void SetUp()
@@ -26,7 +26,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             _repositoryMock = new Mock<ILevyTransactionRepository>();
             _loggerMock = new Mock<IPaymentLogger>();
 
-            _service = new ReceivedDasEarningsService(_repositoryMock.Object, _loggerMock.Object);
+            _processor = new ReceivedDasEarningsProcessor(_repositoryMock.Object, _loggerMock.Object);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ReturnsAsync((LevyTransactionModel)null);
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
+            await _processor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.GetLevyTransactionAsync(message.CourseCode, message.CollectionPeriod.AcademicYear,message.CollectionPeriod.Period, message.UKPRN, message.ULN, message.LearningAimReference), Times.Once);
@@ -89,7 +89,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .Verifiable();
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
+            await _processor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.DeleteLevyTransaction(levyModel, It.IsAny<CancellationToken>()), Times.Once);
@@ -122,7 +122,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ReturnsAsync(levyModel);
 
             // Act
-            await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
+            await _processor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(r => r.DeleteLevyTransaction(It.IsAny<LevyTransactionModel>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -149,7 +149,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 .ThrowsAsync(ex);
 
             // Act & Assert
-            var thrown = Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None));
+            var thrown = Assert.ThrowsAsync<InvalidOperationException>(async () => await _processor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None));
             Assert.That(thrown, Is.SameAs(ex));
         }
     }

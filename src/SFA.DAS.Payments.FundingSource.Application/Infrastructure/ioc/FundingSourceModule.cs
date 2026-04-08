@@ -51,7 +51,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Ioc
             builder.RegisterType<FundingSourcePaymentEventBuilder>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<EmployerProviderPriorityStorageService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<LevyTransactionRepository>().AsImplementedInterfaces().InstancePerLifetimeScope();
-
+            builder.RegisterType<ReceivedDasEarningsProcessor>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            
             builder.Register(c => new CoInvestedFundingSourceService
             (
                 new List<ICoInvestedPaymentProcessorOld>()

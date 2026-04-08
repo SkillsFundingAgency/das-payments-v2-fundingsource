@@ -33,7 +33,7 @@ namespace SFA.DAS.Payments.FundingSource.LevyFundedProxyService.Handlers
             try
             {
                 var actorId = new ActorId(message.EarningsId.ToString());
-                var actor = proxyFactory.CreateActorProxy<IReceivedDasEarningsService>(new Uri("fabric:/SFA.DAS.Payments.FundingSource.ServiceFabric/ReceivedDasEarningsService"), actorId);
+                var actor = proxyFactory.CreateActorProxy<IReceivedDasEarningsService>(new Uri("fabric:/SFA.DAS.Payments.FundingSource.ServiceFabric/ReceivedDasEarningsServiceActorService"), actorId);
                 await actor.RemovePreviousEarningsInCurrentCollection(message, CancellationToken.None).ConfigureAwait(false);
                 logger.LogInfo($"Finished DasEarningsReceived event. {logContext}");
             }
