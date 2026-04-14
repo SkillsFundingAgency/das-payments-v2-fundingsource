@@ -24,8 +24,8 @@
     <PackageReference Include="SFA.DAS.Payments.Application" Version="2.4.0" />
     <PackageReference Include="SFA.DAS.Payments.Core" Version="2.4.0" />
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.4" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.4.1-prerelease-30" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.4.1-prerelease-30" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.4.1-prerelease-55" />
+    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.4.1-prerelease-55" />
     <PackageReference Include="SFA.DAS.Payments.PeriodEnd.Messages" Version="0.1.55" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="2.0.11-prerelease-35" />
     <PackageReference Include="SFA.DAS.Payments.ServiceFabric.Core" Version="2.0.5" />
