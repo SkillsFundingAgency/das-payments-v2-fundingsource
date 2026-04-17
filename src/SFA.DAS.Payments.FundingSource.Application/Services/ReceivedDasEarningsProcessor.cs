@@ -1,11 +1,8 @@
-﻿
-using SFA.DAS.Payments.EarningEvents.Messages.Events;
+﻿using SFA.DAS.Payments.EarningEvents.Messages.Events;
 using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Microsoft.ServiceFabric.Actors.Runtime;
-using Microsoft.ServiceFabric.Actors;
 using SFA.DAS.Payments.Application.Infrastructure.Logging;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
@@ -28,20 +25,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
 
         public async Task RemovePreviousEarningsInCurrentCollection(DasEarningsReceivedEvent message, CancellationToken cancellationToken)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
-
-            if (string.IsNullOrWhiteSpace(message.CourseCode))
-                throw new ArgumentException("CourseCode must be provided", nameof(message));
-
-            if (message.CollectionPeriod?.AcademicYear == null)
-                throw new ArgumentException("AcademicYear must be provided", nameof(message));
-
-            if (message.CollectionPeriod?.Period == null)
-                throw new ArgumentException("CollectionPeriod must be provided", nameof(message));
-
-            if (string.IsNullOrWhiteSpace(message.LearningAimReference))
-                throw new ArgumentException("LearningAimReference must be provided", nameof(message));
+            ValidateDasEarningsReceivedEvent(message);
 
             var courseCode = message.CourseCode;
             var academicYear = message.CollectionPeriod.AcademicYear;
@@ -78,6 +62,59 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
             {
                 logger.LogError($"Error while getting or deleting levy transactions for {logContext}", e);
                 throw;
+            }
+        }
+
+        private static void ValidateDasEarningsReceivedEvent(DasEarningsReceivedEvent message)
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+            
+            if (string.IsNullOrWhiteSpace(message.CourseCode))
+            {
+                throw new ArgumentException("CourseCode must be provided", nameof(message));
+            }
+            
+            if (string.IsNullOrWhiteSpace(message.LearningAimReference))
+            {
+                throw new ArgumentException("LearningAimReference must be provided", nameof(message));
+            }
+
+            if (message.UKPRN == 0)
+            {
+                throw new ArgumentException("UKPRN must be provided", nameof(message));
+            }
+
+            if (message.ULN == 0)
+            {
+                throw new ArgumentException("ULN must be provided", nameof(message));
+            }
+
+            if (message.EarningsId == Guid.Empty)
+            {
+                throw new ArgumentException("EarningsId must be provided", nameof(message));
+            }
+
+            if (message.CollectionPeriod == null)
+            {
+                throw new ArgumentException("CollectionPeriod must be provided", nameof(message));
+            }
+
+            if (message.CollectionPeriod.AcademicYear == 0)
+            {
+                throw new ArgumentException("CollectionPeriod AcademicYear must be provided", nameof(message));
+            }
+
+            if (message.CollectionPeriod.Period == 0)
+            {
+                throw new ArgumentException("CollectionPeriod Period must be provided", nameof(message));
+            }
+
+            if (message.CollectionPeriod.Period > 14)
+            {
+                throw new ArgumentException("CollectionPeriod Period is invalid", nameof(message));
             }
         }
     }
