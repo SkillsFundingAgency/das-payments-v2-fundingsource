@@ -190,6 +190,48 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         }
 
         [Test]
+        public async Task RemovePreviousEarningsInCurrentCollection_When_OnlyOneEvent_IsNever_DeletesLevyTransaction()
+        {
+            // Arrange
+            var existingEarningId1 = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
+            var existingEarningId2 = new Guid("018f4d5e-9c7a-7a2f-9a21-7d4c92c8b202");
+            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+
+            _event.EarningsId = messageEarningId;
+
+            var levyModels = new List<LevyTransactionModel>
+            {
+                new LevyTransactionModel
+                {
+                    TransactionType = TransactionType.Milestone1,
+                    EarningEventId = existingEarningId1
+                },
+                new LevyTransactionModel
+                {
+                    TransactionType = TransactionType.Completion,
+                    EarningEventId = existingEarningId2
+                }
+            };
+
+            _repositoryMock
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                    _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
+                .ReturnsAsync(levyModels);
+
+            _repositoryMock
+                .Setup(r => r.DeleteLevyTransactions(levyModels, It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            // Act
+            await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None);
+
+            // Assert
+            _repositoryMock.Verify(r => r.DeleteLevyTransactions(It.Is<IEnumerable<LevyTransactionModel>>(x => x.Count(x => x.EarningEventId == existingEarningId1) == 1), It.IsAny<CancellationToken>()), Times.Once);
+            _repositoryMock.Verify(r => r.DeleteLevyTransactions(It.Is<IEnumerable<LevyTransactionModel>>(x => x.Count(x => x.EarningEventId == existingEarningId2) == 1), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Test]
         public void RemovePreviousEarningsInCurrentCollection_RejectsEmptyMessage()
         {
             // Arrange

@@ -3,8 +3,10 @@ using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.Application.Infrastructure.Logging;
+using SFA.DAS.Payments.Model.Core.Entities;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
 {
@@ -49,14 +51,23 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
                 }
 
                 // If incoming earnings id is newer than stored one, remove the stored levy transaction(s)
-                if (message.EarningsId.CompareTo(levyTransactions.First().EarningEventId) > 0) // LevyTransactions will all have the same EarningsEventId for collection period
+                var levyTransactionsToRemove = new List<LevyTransactionModel>();
+                foreach (var levyTransaction in levyTransactions)
                 {
-                    await levyTransactionRepository.DeleteLevyTransactions(levyTransactions, CancellationToken.None).ConfigureAwait(false);
-                    logger.LogInfo($"Deleted levy transaction(s) for {logContext}");
+                    if (message.EarningsId.CompareTo(levyTransaction.EarningEventId) < 0) // Message EarningsId is earlier than stored earnings
+                    {
+                        logger.LogInfo($"Existing levy transaction is newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransaction.EarningEventId}");
+                    }
+                    else
+                    {
+                        levyTransactionsToRemove.Add(levyTransaction);
+                    }
                 }
-                else
+
+                if (levyTransactionsToRemove.Any())
                 {
-                    logger.LogInfo($"Existing levy transaction(s) are newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransactions.First().EarningEventId}");
+                    await levyTransactionRepository.DeleteLevyTransactions(levyTransactionsToRemove, CancellationToken.None).ConfigureAwait(false);
+                    logger.LogInfo($"Deleted {levyTransactionsToRemove.Count} levy transaction(s) for {logContext}");
                 }
             }
             catch (Exception e)
