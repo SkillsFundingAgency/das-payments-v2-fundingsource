@@ -3,6 +3,7 @@ using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using System.Linq;
 using SFA.DAS.Payments.Application.Infrastructure.Logging;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
@@ -39,23 +40,23 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
 
             try
             {
-                var levyTransaction = await levyTransactionRepository.GetLevyTransactionAsync(courseCode, academicYear, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
+                var levyTransactions = await levyTransactionRepository.GetLevyTransactions(courseCode, academicYear, period, ukprn, uln, learningAimReference).ConfigureAwait(false);
 
-                if (levyTransaction is null)
+                if (!levyTransactions.Any())
                 {
                     logger.LogInfo($"No Levy Transactions found for {logContext}");
                     return;
                 }
 
                 // If incoming earnings id is newer than stored one, remove the stored levy transaction(s)
-                if (message.EarningsId.CompareTo(levyTransaction.EarningEventId) > 0)
+                if (message.EarningsId.CompareTo(levyTransactions.First().EarningEventId) > 0) // LevyTransactions will all have the same EarningsEventId for collection period
                 {
-                    await levyTransactionRepository.DeleteLevyTransaction(levyTransaction, CancellationToken.None).ConfigureAwait(false);
+                    await levyTransactionRepository.DeleteLevyTransactions(levyTransactions, CancellationToken.None).ConfigureAwait(false);
                     logger.LogInfo($"Deleted levy transaction(s) for {logContext}");
                 }
                 else
                 {
-                    logger.LogInfo($"Existing levy transaction(s) are newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransaction.EarningEventId}");
+                    logger.LogInfo($"Existing levy transaction(s) are newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransactions.First().EarningEventId}");
                 }
             }
             catch (Exception e)

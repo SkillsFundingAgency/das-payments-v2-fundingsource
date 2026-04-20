@@ -7,6 +7,8 @@ using SFA.DAS.Payments.FundingSource.Application.Services;
 using SFA.DAS.Payments.Model.Core;
 using SFA.DAS.Payments.Model.Core.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,24 +51,24 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             // Arrange
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactionAsync(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
                     _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
-                .ReturnsAsync((LevyTransactionModel)null);
+                .ReturnsAsync(new List<LevyTransactionModel>());
 
             // Act
             await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(
-                r => r.GetLevyTransactionAsync(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
                     _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference), Times.Once);
             _repositoryMock.Verify(
-                r => r.DeleteLevyTransaction(It.IsAny<LevyTransactionModel>(), It.IsAny<CancellationToken>()),
+                r => r.DeleteLevyTransactions(It.IsAny<IEnumerable<LevyTransactionModel>>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
         [Test]
-        public async Task RemovePreviousEarningsInCurrentCollection_When_eventIsNewer_DeletesLevyTransactionAndLogs()
+        public async Task RemovePreviousEarningsInCurrentCollection_When_EventIsNewer_DeletesLevyTransactionAndLogs()
         {
             // Arrange
             var existingEarningId = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
@@ -74,18 +76,21 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             _event.EarningsId = messageEarningId;
 
-            var levyModel = new LevyTransactionModel
+            var levyModels = new List<LevyTransactionModel> 
             {
-                EarningEventId = existingEarningId
+                new LevyTransactionModel
+                {
+                    EarningEventId = existingEarningId
+                }
             };
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactionAsync(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
                     _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
-                .ReturnsAsync(levyModel);
+                .ReturnsAsync(levyModels);
 
             _repositoryMock
-                .Setup(r => r.DeleteLevyTransaction(levyModel, It.IsAny<CancellationToken>()))
+                .Setup(r => r.DeleteLevyTransactions(levyModels, It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
@@ -93,7 +98,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None);
 
             // Assert
-            _repositoryMock.Verify(r => r.DeleteLevyTransaction(levyModel, It.IsAny<CancellationToken>()), Times.Once);
+            _repositoryMock.Verify(r => r.DeleteLevyTransactions(levyModels, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -105,22 +110,25 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 
             _event.EarningsId = messageEarningId;
 
-            var levyModel = new LevyTransactionModel
+            var levyModels = new List<LevyTransactionModel>
             {
-                EarningEventId = existingEarningId
+                new LevyTransactionModel
+                {
+                    EarningEventId = existingEarningId
+                }
             };
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactionAsync(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
                     _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
-                .ReturnsAsync(levyModel);
+                .ReturnsAsync(levyModels);
 
             // Act
             await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None);
 
             // Assert
             _repositoryMock.Verify(
-                r => r.DeleteLevyTransaction(It.IsAny<LevyTransactionModel>(), It.IsAny<CancellationToken>()),
+                r => r.DeleteLevyTransactions(It.IsAny<IEnumerable<LevyTransactionModel>>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
@@ -131,7 +139,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             var ex = new InvalidOperationException("repo failure");
 
             _repositoryMock
-                .Setup(r => r.GetLevyTransactionAsync(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
                     _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
                 .ThrowsAsync(ex);
 
@@ -139,6 +147,46 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
             var thrown = Assert.ThrowsAsync<InvalidOperationException>(async () =>
                 await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None));
             Assert.That(thrown, Is.SameAs(ex));
+        }
+
+        [Test]
+        public async Task RemovePreviousEarningsInCurrentCollection_When_EventsAreNewer_DeletesLevyTransactions()
+        {
+            // Arrange
+            var existingEarningId = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
+            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+
+            _event.EarningsId = messageEarningId;
+
+            var levyModels = new List<LevyTransactionModel>
+            {
+                new LevyTransactionModel
+                {
+                    TransactionType = TransactionType.Milestone1,
+                    EarningEventId = existingEarningId
+                },
+                new LevyTransactionModel
+                {
+                    TransactionType = TransactionType.Completion,
+                    EarningEventId = existingEarningId
+                }
+            };
+
+            _repositoryMock
+                .Setup(r => r.GetLevyTransactions(_event.CourseCode, _event.CollectionPeriod.AcademicYear,
+                    _event.CollectionPeriod.Period, _event.UKPRN, _event.ULN, _event.LearningAimReference))
+                .ReturnsAsync(levyModels);
+
+            _repositoryMock
+                .Setup(r => r.DeleteLevyTransactions(levyModels, It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            // Act
+            await _processor.RemovePreviousEarningsInCurrentCollection(_event, CancellationToken.None);
+
+            // Assert
+            _repositoryMock.Verify(r => r.DeleteLevyTransactions(It.Is<IEnumerable<LevyTransactionModel>>(x => x.Count(x => x.EarningEventId == existingEarningId) == 2), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
