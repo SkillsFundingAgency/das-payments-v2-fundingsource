@@ -19,10 +19,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
 
         Task SaveLevyTransactionsIndividually(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken);
 
-        Task<LevyTransactionModel> GetLevyTransactionAsync(string CourseCode, short AcademicYear, byte Period, long UKPRN, long ULN, string LearningAimReference);
+        Task<IEnumerable<LevyTransactionModel>> GetLevyTransactions(string courseCode, short academicYear, byte period, long ukprn, long uln, string learningAimReference);
 
-        Task DeleteLevyTransaction(LevyTransactionModel levyTransactionModel, CancellationToken cancellationToken);
-
+        Task DeleteLevyTransactions(IEnumerable<LevyTransactionModel> levyTransactionModels, CancellationToken cancellationToken);
     }
 
     public class LevyTransactionRepository : ILevyTransactionRepository
@@ -35,41 +34,29 @@ namespace SFA.DAS.Payments.FundingSource.Application.Repositories
             this.dataContextFactory = dataContextFactory ?? throw new ArgumentNullException(nameof(dataContextFactory));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        public async Task DeleteLevyTransaction(LevyTransactionModel levyTransactionModel, CancellationToken cancellationToken)
+        public async Task<IEnumerable<LevyTransactionModel>> GetLevyTransactions(string courseCode, short academicYear, byte period, long ukprn, long uln, string learningAimReference)
         {
-            using var context = (FundingSourceDataContext)dataContextFactory.Create();
-            context.ChangeTracker.AutoDetectChangesEnabled = false;
-            context.LevyTransactions.Remove(levyTransactionModel);
-            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        public async Task<LevyTransactionModel> GetLevyTransactionAsync(string courseCode, short academicYear, byte period, long ukprn, long uln, string learningAimReference)
-        {
-            using var context = (FundingSourceDataContext)dataContextFactory.Create();
+            await using var context = (FundingSourceDataContext)dataContextFactory.Create();
             var levyTransactions = await context.LevyTransactions
-                        .AsNoTracking()
-                        .Where(x =>
-                            x.Ukprn == ukprn
-                            && x.AcademicYear == academicYear
-                            && x.CourseCode == courseCode
-                            && x.CollectionPeriod == period
-                            && x.LearnerUln == uln
-                            && x.LearningAimReference == learningAimReference)
-                            .Select(x => new LevyTransactionModel
-                            {
-                                CourseCode = x.CourseCode,
-                                Ukprn = x.Ukprn,
-                                LearnerUln = x.LearnerUln,
-                                AcademicYear = x.AcademicYear,
-                                CollectionPeriod = x.CollectionPeriod,
-                                LearningAimReference = x.LearningAimReference
-                            })
-                        .FirstOrDefaultAsync();
+                .AsNoTracking()
+                .Where(x =>
+                    x.Ukprn == ukprn
+                    && x.AcademicYear == academicYear
+                    && x.CourseCode == courseCode
+                    && x.CollectionPeriod == period
+                    && x.LearnerUln == uln
+                    && x.LearningAimReference == learningAimReference).ToListAsync();
 
             return levyTransactions;
         }
 
+        public async Task DeleteLevyTransactions(IEnumerable<LevyTransactionModel> levyTransactionModels, CancellationToken cancellationToken)
+        {
+            await using var context = (FundingSourceDataContext)dataContextFactory.Create();
+            context.LevyTransactions.RemoveRange(levyTransactionModels);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        }
+        
         public async Task SaveLevyTransactions(IList<LevyTransactionModel> levyTransactions, CancellationToken cancellationToken)
         {
             using (var context = (FundingSourceDataContext)dataContextFactory.Create())
