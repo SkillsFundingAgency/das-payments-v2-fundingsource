@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoMapper;
 using Moq;
 using NUnit.Framework;
@@ -16,8 +9,16 @@ using SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuration;
 using SFA.DAS.Payments.FundingSource.Application.Repositories;
 using SFA.DAS.Payments.FundingSource.Application.Services;
 using SFA.DAS.Payments.FundingSource.Messages.Commands;
+using SFA.DAS.Payments.Model.Core;
 using SFA.DAS.Payments.Model.Core.Entities;
 using SFA.DAS.Payments.RequiredPayments.Messages.Events;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 {
@@ -162,7 +163,11 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 calculatedRequiredLevyAmount.LearningStartDate == levyTransactionModel.LearningStartDate &&
                 calculatedRequiredLevyAmount.SfaContributionPercentage == levyTransactionModel.SfaContributionPercentage &&
                 calculatedRequiredLevyAmount.TransactionType == levyTransactionModel.TransactionType &&
-                calculatedRequiredLevyAmount.FundingPlatformType == levyTransactionModel.FundingPlatformType );
+                calculatedRequiredLevyAmount.FundingPlatformType == levyTransactionModel.FundingPlatformType &&
+                calculatedRequiredLevyAmount.CourseType == levyTransactionModel.CourseType &&
+                (calculatedRequiredLevyAmount.LearningAim.CourseCode ?? "") == (levyTransactionModel.CourseCode ?? "") &&
+                calculatedRequiredLevyAmount.LearningAim.LearningType == levyTransactionModel.LearningType
+            );
         }
 
         private bool ValidateDasPaymentPlatformLevyTransactionModel(LevyTransactionModel levyTransactionModel)

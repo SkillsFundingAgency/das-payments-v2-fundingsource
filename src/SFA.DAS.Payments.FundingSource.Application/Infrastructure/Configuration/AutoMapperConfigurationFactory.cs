@@ -33,21 +33,30 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                     .ForMember(dest => dest.ApprenticeshipPriceEpisodeId,
                         opt => opt.MapFrom(src => src.ApprenticeshipPriceEpisodeId))
                     .ForMember(dest => dest.FundingPlatformType,
-                        opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData));
-
-                cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>();
-                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>();
-                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaFullyFundedFundingSourcePaymentEvent>();
+                        opt => opt.MapFrom(src => FundingPlatformType.SubmitLearnerData))
+                    .ForMember(dest => dest.ReportingAimFundingLineType, opt => opt.MapFrom(src => src.ReportingAimFundingLineType));
+                    
+                cfg.CreateMap<CalculatedRequiredLevyAmount, EmployerCoInvestedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
+                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
+                cfg.CreateMap<CalculatedRequiredLevyAmount, SfaFullyFundedFundingSourcePaymentEvent>()
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, LevyFundingSourcePaymentEvent>()
-                    .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId, opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
-                    .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
+                    .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId,
+                        opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
+                    .ForMember(dest => dest.AgeAtStartOfLearning,
+                        opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
+                    .ForMember(dest => dest.FundingPlatformType,
+                        opt => opt.MapFrom(source => source.FundingPlatformType))
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, TransferFundingSourcePaymentEvent>()
                     .ForMember(fundingSourcePaymentEvent => fundingSourcePaymentEvent.AgreementId, opt => opt.MapFrom(requiredPayment => requiredPayment.AgreementId))
                     .ForMember(dest => dest.AgeAtStartOfLearning, opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
+                    .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType))
+                    .ForMember(dest => dest.CourseType, opt => opt.MapFrom(src => src.CourseType));
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, FundingSourcePaymentEvent>()
                     .Include<CalculatedRequiredLevyAmount, LevyFundingSourcePaymentEvent>()
@@ -81,7 +90,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                         opt => opt.MapFrom(src => FundingSourceType.CoInvestedSfa))
                     .ForMember(dest => dest.AgeAtStartOfLearning,
                         opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
-                    ;
+                ;
 
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType));
@@ -111,7 +120,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, SfaCoInvestedFundingSourcePaymentEvent>()
                     .ForMember(dest => dest.FundingPlatformType, opt => opt.MapFrom(source => source.FundingPlatformType))
-                    ;
+                ;
 
                 cfg.CreateMap<CalculatedRequiredLevyAmount, RequiredPayment>();
                 cfg.CreateMap<CalculatedRequiredCoInvestedAmount, RequiredCoInvestedPayment>();

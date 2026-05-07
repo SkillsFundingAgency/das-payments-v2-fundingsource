@@ -45,7 +45,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    LearningType = LearningType.Apprenticeship,
+                    CourseCode = "COURSE1"
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -71,7 +73,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 ApprenticeshipPriceEpisodeId = 1,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                CourseType = CourseType.Apprenticeship
             };
             
             expectedEvent = new CalculatedRequiredLevyAmount
@@ -91,7 +94,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 },
                 LearningAim = new LearningAim
                 {
-                    FrameworkCode = 403
+                    FrameworkCode = 403,
+                    CourseCode = "COURSE1",
+                    LearningType = LearningType.Apprenticeship
                 },
                 PriceEpisodeIdentifier = "1819-P01",
                 SfaContributionPercentage = 0.9m,
@@ -116,43 +121,39 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 OnProgrammeEarningType = OnProgrammeEarningType.Balancing,
                 TransferSenderAccountId = 10,
                 ReportingAimFundingLineType = "Test",
-                FundingPlatformType = FundingPlatformType.SubmitLearnerData
+                FundingPlatformType = FundingPlatformType.SubmitLearnerData,
+                CourseType = CourseType.Apprenticeship,
             };
             
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
         }
 
-        [Test]
-        public void TestMapToCalculatedRequiredLevyAmount()
+        [TestCase(LearningType.Apprenticeship, FundingPlatformType.SubmitLearnerData)]
+        [TestCase(LearningType.Apprenticeship, FundingPlatformType.DigitalApprenticeshipService)]
+        [TestCase(LearningType.ApprenticeshipUnit, FundingPlatformType.SubmitLearnerData)]
+        [TestCase(LearningType.ApprenticeshipUnit, FundingPlatformType.DigitalApprenticeshipService)]
+        public void Maps_ToCalculatedRequiredLevyAmount_Correctly(LearningType learningType, FundingPlatformType fundingPlatformType)
         {
+            // arrange
+            unableToFundTransferFundingSourcePayment.LearningAim.LearningType = learningType;
+            unableToFundTransferFundingSourcePayment.FundingPlatformType = fundingPlatformType;
+
+            expectedEvent.LearningAim.LearningType = learningType;
+            expectedEvent.FundingPlatformType = fundingPlatformType;
+
             // act
-            var actualEvent = autoMapper.Map<CalculatedRequiredLevyAmount>(unableToFundTransferFundingSourcePayment);
+            var actualEvent = autoMapper.Map<CalculatedRequiredLevyAmount>(
+                unableToFundTransferFundingSourcePayment);
 
             // assert
             actualEvent.Should().BeEquivalentTo(expectedEvent);
 
-            //Null Apprenticeship Fix
             actualEvent.ApprenticeshipId.Should().Be(expectedEvent.ApprenticeshipId);
             actualEvent.ApprenticeshipPriceEpisodeId.Should().Be(expectedEvent.ApprenticeshipPriceEpisodeId);
-            
-            //EarningEventId
             actualEvent.EarningEventId.Should().Be(expectedEvent.EarningEventId);
-            
-            //RequiredPaymentEventId
             actualEvent.EventId.Should().Be(expectedEvent.EventId);
-        }
-
-        [TestCase(FundingPlatformType.SubmitLearnerData)]
-        [TestCase(FundingPlatformType.DigitalApprenticeshipService)]
-        public void Maps_Funding_Platform_Correctly(FundingPlatformType fundingPlatformType)
-        {
-            unableToFundTransferFundingSourcePayment.FundingPlatformType = fundingPlatformType;
-
-            // act
-            var actualEvent = autoMapper.Map<CalculatedRequiredLevyAmount>(unableToFundTransferFundingSourcePayment);
-
-            // assert
+            actualEvent.LearningAim.LearningType.Should().Be(learningType);
             actualEvent.FundingPlatformType.Should().Be(fundingPlatformType);
         }
     }

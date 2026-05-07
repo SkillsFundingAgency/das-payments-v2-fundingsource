@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcceptanceTests", "Acceptan
 EndProject
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "SFA.DAS.Payments.FundingSource.ServiceFabric", "SFA.DAS.Payments.FundingSource.ServiceFabric\SFA.DAS.Payments.FundingSource.ServiceFabric.sfproj", "{9D21C169-F999-45CD-B181-78437B2D01FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.FundingSource.ReceivedDasEarningsService", "SFA.DAS.Payments.FundingSource.ReceivedDasEarningsService\SFA.DAS.Payments.FundingSource.ReceivedDasEarningsService.csproj", "{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,14 @@ Global
 		{9D21C169-F999-45CD-B181-78437B2D01FD}.Release|x64.ActiveCfg = Release|x64
 		{9D21C169-F999-45CD-B181-78437B2D01FD}.Release|x64.Build.0 = Release|x64
 		{9D21C169-F999-45CD-B181-78437B2D01FD}.Release|x64.Deploy.0 = Release|x64
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D9E0C73-9072-4B9E-9A4E-F7F423A5DDD1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
