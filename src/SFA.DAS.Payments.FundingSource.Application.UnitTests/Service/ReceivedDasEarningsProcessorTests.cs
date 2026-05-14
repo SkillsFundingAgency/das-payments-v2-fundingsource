@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using UUIDNext;
 
 namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
 {
@@ -71,8 +72,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         public async Task RemovePreviousEarningsInCurrentCollection_When_EventIsNewer_DeletesLevyTransactionAndLogs()
         {
             // Arrange
-            var existingEarningId = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
-            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+            var existingEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
+            Thread.Sleep(1);
+            var messageEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
 
             _event.EarningsId = messageEarningId;
 
@@ -105,8 +107,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         public async Task RemovePreviousEarningsInCurrentCollection_WhenExistingIsNewer_DoesNotDeleteAndLogs()
         {
             // Arrange
-            var existingEarningId = new Guid("019ce18d-7edb-701b-985c-545f8192eff2");
-            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+            var messageEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
+            Thread.Sleep(1);
+            var existingEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
 
             _event.EarningsId = messageEarningId;
 
@@ -153,8 +156,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         public async Task RemovePreviousEarningsInCurrentCollection_When_EventsAreNewer_DeletesLevyTransactions()
         {
             // Arrange
-            var existingEarningId = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
-            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+            var existingEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
+            Thread.Sleep(1);
+            var messageEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
 
             _event.EarningsId = messageEarningId;
 
@@ -193,9 +197,11 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
         public async Task RemovePreviousEarningsInCurrentCollection_When_OnlyOneEvent_IsNever_DeletesLevyTransaction()
         {
             // Arrange
-            var existingEarningId1 = new Guid("018f4d5e-9c7a-7a2d-b3f4-5c1a9e1b6a11");
-            var existingEarningId2 = new Guid("018f4d5e-9c7a-7a2f-9a21-7d4c92c8b202");
-            var messageEarningId = new Guid("018f4d5e-9c7a-7a2e-9a21-7d4c92c8b201");
+            var existingEarningId1 = Uuid.NewDatabaseFriendly(Database.SqlServer);
+            Thread.Sleep(1);
+            var messageEarningId = Uuid.NewDatabaseFriendly(Database.SqlServer);
+            Thread.Sleep(1);
+            var existingEarningId2 = Uuid.NewDatabaseFriendly(Database.SqlServer);
 
             _event.EarningsId = messageEarningId;
 

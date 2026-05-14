@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.Application.Infrastructure.Logging;
 using SFA.DAS.Payments.Model.Core.Entities;
+using UUIDNext.Tools;
 
 namespace SFA.DAS.Payments.FundingSource.Application.Services
 {
@@ -54,13 +55,13 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
                 var levyTransactionsToRemove = new List<LevyTransactionModel>();
                 foreach (var levyTransaction in levyTransactions)
                 {
-                    if (message.EarningsId.CompareTo(levyTransaction.EarningEventId) < 0) // Message EarningsId is earlier than stored earnings
+                    if (CompareTimestamps(message.EarningsId, levyTransaction.EarningEventId)) // Message EarningsId is later than stored earnings
                     {
-                        logger.LogInfo($"Existing levy transaction is newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransaction.EarningEventId}");
+                        levyTransactionsToRemove.Add(levyTransaction);
                     }
                     else
                     {
-                        levyTransactionsToRemove.Add(levyTransaction);
+                        logger.LogInfo($"Existing levy transaction is newer or equal for {logContext}. Message EarningsId: {message.EarningsId}, Stored EarningEventId: {levyTransaction.EarningEventId}");
                     }
                 }
 
@@ -128,6 +129,21 @@ namespace SFA.DAS.Payments.FundingSource.Application.Services
             {
                 throw new ArgumentException("CollectionPeriod Period is invalid", nameof(message));
             }
+        }
+
+        private bool CompareTimestamps(Guid messageEarningsId, Guid existingEarningsId)
+        {
+            var messageDecode = UuidDecoder.TryDecodeTimestamp(messageEarningsId, out var messageDateTime);
+            var tableDecode = UuidDecoder.TryDecodeTimestamp(existingEarningsId, out var existingEarningsDateTime);
+
+            if (messageDecode && tableDecode)
+            {
+                if (messageDateTime == existingEarningsDateTime) return false;
+
+                return messageDateTime > existingEarningsDateTime;
+            }
+
+            return false;
         }
     }
 }
