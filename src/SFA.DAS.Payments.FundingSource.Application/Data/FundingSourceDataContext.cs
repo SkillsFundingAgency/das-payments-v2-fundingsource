@@ -71,7 +71,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
                 AND [CollectionPeriod] = @collectionPeriod
                 AND [JobId] != @jobId
                 AND [IlrSubmissionDateTime] < @ilrSubmissionDateTime
-                AND [Ukprn] = @ukprn", 
+                AND [Ukprn] = @ukprn
+                AND ([FundingPlatformType] != 2
+                OR [FundingPlatformType] IS NULL)", 
             new SqlParameter("academicYear", academicYear),
             new SqlParameter("collectionPeriod", collectionPeriod),
             new SqlParameter("jobId", jobId),
@@ -85,7 +87,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
                 WHERE [AcademicYear] = @academicYear
                 AND [CollectionPeriod] = @collectionPeriod
                 AND [JobId] = @jobId
-                AND [Ukprn] = @ukprn", 
+                AND [Ukprn] = @ukprn
+                AND ([FundingPlatformType] != 2
+                OR [FundingPlatformType] IS NULL)", 
             new SqlParameter("academicYear", academicYear),
             new SqlParameter("collectionPeriod", collectionPeriod),
             new SqlParameter("jobId", jobId),
