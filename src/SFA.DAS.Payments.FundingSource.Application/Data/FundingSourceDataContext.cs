@@ -15,7 +15,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
     {
         Task<int> SaveChanges(CancellationToken cancellationToken);
         Task<List<LevyTransactionModel>> GetTransactionsToBePaidByEmployer(long employerAccountId, CollectionPeriod collectionPeriod);
-        Task DeletePreviousSubmissions(long jobId, byte collectionPeriod, short academicYear, DateTime? ilrSubmissionDateTime, long ukprn);
+        Task DeletePreviousSubmissions(long jobId, byte collectionPeriod, short academicYear, DateTime ilrSubmissionDateTime, long ukprn);
         Task DeleteCurrentSubmissions(long jobId, byte collectionPeriod, short academicYear, long ukprn);
         Task<List<EmployerProviderPriorityModel>> GetEmployerProviderPriorities(long employerAccountId, CancellationToken cancellationToken);
         Task ReplaceEmployerProviderPriorities(long employerAccountId, List<EmployerProviderPriorityModel> paymentPriorityModels, CancellationToken cancellationToken);
@@ -63,7 +63,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
                 && transaction.AcademicYear == collectionPeriod.AcademicYear).ToListAsync();
         }
 
-        public async Task DeletePreviousSubmissions(long jobId, byte collectionPeriod, short academicYear, DateTime? ilrSubmissionDateTime,
+        public async Task DeletePreviousSubmissions(long jobId, byte collectionPeriod, short academicYear, DateTime ilrSubmissionDateTime,
             long ukprn)
         {
             await Database.ExecuteSqlRawAsync(@"DELETE FROM [Payments2].[FundingSourceLevyTransaction]
