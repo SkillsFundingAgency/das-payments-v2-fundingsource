@@ -21,6 +21,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.Data
         Task ReplaceEmployerProviderPriorities(long employerAccountId, List<EmployerProviderPriorityModel> paymentPriorityModels, CancellationToken cancellationToken);
     }
 
+
     public class FundingSourceDataContext : DbContext, IFundingSourceDataContext
     {
         protected readonly string connectionString;
