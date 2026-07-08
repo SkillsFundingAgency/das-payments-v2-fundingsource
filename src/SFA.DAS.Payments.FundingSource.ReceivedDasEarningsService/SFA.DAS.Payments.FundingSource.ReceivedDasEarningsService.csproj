@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="7.1.2493" />
-    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.4.1-prerelease-55" />
+    <PackageReference Include="SFA.DAS.Payments.Application" Version="2.4.1-prerelease-62" />
   </ItemGroup>
 
   <ItemGroup>
