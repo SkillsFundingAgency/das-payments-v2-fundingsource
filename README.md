@@ -44,3 +44,6 @@ N/A
 
 N/A
 
+## Running Acceptance Tests
+
+Create a new file called ``appSettings.local.json``, copy the contents of the ``appSettings.json`` file into it and populate the configuration parameters with values for your local setup
