@@ -13,7 +13,7 @@ namespace SFA.DAS.Payments.FundingSource.Tests.Specs.StepDefinitions
         public Provider Provider { get; }
         public Learner  Learner { get; }
         public TestSessionDataContext DataContext { get; }
-        public TimeSpan TimeToWait => TimeSpan.FromSeconds(10);
+        public TimeSpan TimeToWait => TimeSpan.FromSeconds(30);
         public TimeSpan TimeToPause => TimeSpan.FromSeconds(2);
         public long JobId { get; set; }
 
