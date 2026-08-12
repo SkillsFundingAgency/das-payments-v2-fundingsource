@@ -165,7 +165,9 @@ namespace SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuratio
                     .ForMember(dest => dest.AgeAtStartOfLearning,
                         opt => opt.MapFrom(source => source.AgeAtStartOfLearning))
                     .ForMember(dest => dest.FundingPlatformType,
-                        opt => opt.MapFrom(source => source.FundingPlatformType));
+                        opt => opt.MapFrom(source => source.FundingPlatformType))
+                    .ForMember(dest => dest.ExternalEarningsId,
+                        opt => opt.MapFrom(source => source.ExternalEarningsId));
 
             });
         }
