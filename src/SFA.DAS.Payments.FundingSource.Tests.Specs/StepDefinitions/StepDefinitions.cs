@@ -22,6 +22,7 @@ namespace SFA.DAS.Payments.FundingSource.Tests.Specs.StepDefinitions
         private long employerAccountId;
         private decimal paymentAmount;
         private decimal sfaContributionPercentage;
+        private DateTime learnerStartDate;
         private ApprenticeshipEmployerType employerType;
         private LevyAccountModel levyAccount;
         private CalculatedRequiredLevyAmount calculatedRequiredLevyAmount;
@@ -45,6 +46,7 @@ namespace SFA.DAS.Payments.FundingSource.Tests.Specs.StepDefinitions
             randomizer = new Randomizer();
             employerAccountId = randomizer.Long(1, 100000);
             paymentAmount = 5000m;
+            learnerStartDate = new DateTime(2025, 1, 1);
             SetCurrentCollectionYear();
             Console.WriteLine($"UKPRN : {testSession.Provider.Ukprn}, ULN: {testSession.Learner.Uln}, collection year: {currentAcademicYear}");
         }
@@ -94,6 +96,18 @@ namespace SFA.DAS.Payments.FundingSource.Tests.Specs.StepDefinitions
         {
             employerType = ApprenticeshipEmployerType.NonLevy;
             await InitialiseEmployerAccount(0m, false);
+        }
+
+        [Given("the apprenticeship started before the co-investment rules cut-off date of 1 April 2024")]
+        public void GivenTheApprenticeshipStartedBeforeTheCoInvestmentRulesCutOffDateOf1April2024()
+        {
+            learnerStartDate = new DateTime(2024, 3, 31);
+        }
+
+        [Given("the apprenticeship started on the co-investment rules cut-off date of 1 April 2024")]
+        public void GivenTheApprenticeshipStartedOnTheCoInvestmentRulesCutOffDateOf1April2024()
+        {
+            learnerStartDate = new DateTime(2024, 4, 1);
         }
 
         [When("the SFA contribution percentage is set to 100% for the learner and course")]
@@ -256,7 +270,7 @@ namespace SFA.DAS.Payments.FundingSource.Tests.Specs.StepDefinitions
                 .RuleFor(x => x.IlrSubmissionDateTime, f => f.Date.Recent(10))
                 .RuleFor(x => x.IlrFileName, f => f.Random.AlphaNumeric(10))
                 .RuleFor(x => x.EventTime, f => f.Date.RecentOffset(10))
-                .RuleFor(x => x.StartDate, f => f.Date.Past(3).Date)
+                .RuleFor(x => x.StartDate, _ => learnerStartDate)
                 .RuleFor(x => x.PlannedEndDate, (f, x) => x.StartDate.AddMonths(f.Random.Int(12, 48)))
                 .RuleFor(x => x.ActualEndDate, _ => null)
                 .RuleFor(x => x.CompletionStatus, _ => (byte)0)

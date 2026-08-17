@@ -34,3 +34,15 @@ Scenario: Non-Levy - Employer's Growth and Skills Levy account has no funds - 10
 	When the SFA contribution percentage is set to 100% for the learner and course
 	Then the training provider payments should be fully funded by SFA
 
+Scenario: Small employer - Levy account has funds but is not used - 100% co-investment and start date before cut-off
+	Given A Levy paying employer has sufficient funds in their Growth and Skills Levy account
+	And the apprenticeship started before the co-investment rules cut-off date of 1 April 2024
+	When the SFA contribution percentage is set to 100% for the learner and course
+	Then the training provider payments should be fully funded by SFA
+
+Scenario: Not a small employer - Levy account is used when start date is on the cut-off date - 100% co-investment
+	Given A Levy paying employer has sufficient funds in their Growth and Skills Levy account
+	And the apprenticeship started on the co-investment rules cut-off date of 1 April 2024
+	When the SFA contribution percentage is set to 100% for the learner and course
+	Then the training provider payments should be fully funded by the employer's Growth and Skills Levy account
+
