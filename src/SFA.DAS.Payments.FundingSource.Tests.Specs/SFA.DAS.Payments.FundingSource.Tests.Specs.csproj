@@ -43,4 +43,10 @@
 	  <ProjectReference Include="..\SFA.DAS.Payments.FundingSource.Messages\SFA.DAS.Payments.FundingSource.Messages.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="appsettings.local.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>
