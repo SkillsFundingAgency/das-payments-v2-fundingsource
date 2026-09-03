@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Linq;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.FundingSource.Domain.Interface;
@@ -86,20 +88,130 @@ namespace SFA.DAS.Payments.FundingSource.Domain.UnitTests
         }
 
         [Test]
-        public void TestProcessPaymentWithOneSfaContribution() // Small employer earnings have SFA contribution of 1
+        public void TestProcessPaymentWithOneHundredPercentSfaContributionWithAvailableLevyFunds()
         {
             // arrange
             var requiredPayment = new RequiredPayment
             {
                 SfaContributionPercentage = 1m,
-                AmountDue = 100
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 4, 1)
             };
-            
+
+            levyBalanceServiceMock.Setup(s => s.TryFund(100)).Returns(100).Verifiable();
+
+            // act
+            var payments = processor.Process(requiredPayment);
+
+            // assert
+            payments.Should().HaveCount(1);
+            payments[0].AmountDue.Should().Be(100);
+            payments[0].Type.Should().Be(FundingSourceType.Levy);
+        }
+
+        [Test]
+        public void TestProcessPaymentWithOneHundredPercentSfaContributionWithInsufficientLevyFunds()
+        {
+            // arrange
+            var requiredPayment = new RequiredPayment
+            {
+                SfaContributionPercentage = 1m,
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 4, 1)
+            };
+
+            levyBalanceServiceMock.Setup(s => s.TryFund(100)).Returns(50).Verifiable();
+
+            // act
+            var payments = processor.Process(requiredPayment);
+
+            // assert
+            payments.Should().HaveCount(1);
+            payments[0].AmountDue.Should().Be(50);
+            payments[0].Type.Should().Be(FundingSourceType.Levy);
+        }
+
+        [Test]
+        public void TestProcessPaymentWithOneHundredPercentSfaContributionWithNoLevyFunds()
+        {
+            // arrange
+            var requiredPayment = new RequiredPayment
+            {
+                SfaContributionPercentage = 1m,
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 4, 1)
+            };
+
+            levyBalanceServiceMock.Setup(s => s.TryFund(100)).Returns(0).Verifiable();
+
             // act
             var payments = processor.Process(requiredPayment);
 
             // assert
             payments.Should().HaveCount(0);
+        }
+
+        [Test]
+        public void TestProcessPaymentWithOneHundredPercentSfaContributionAndStartDateBeforeCutOffDoesNotUseLevyFunds()
+        {
+            // arrange
+            var requiredPayment = new RequiredPayment
+            {
+                SfaContributionPercentage = 1m,
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 3, 31)
+            };
+
+            // act
+            var payments = processor.Process(requiredPayment);
+
+            // assert
+            payments.Should().BeEmpty();
+            levyBalanceServiceMock.Verify(s => s.TryFund(It.IsAny<decimal>()), Times.Never);
+        }
+
+        [Test]
+        public void TestProcessPaymentWithOneHundredPercentSfaContributionAndStartDateOnCutOffDateUsesLevyFunds()
+        {
+            // arrange
+            var requiredPayment = new RequiredPayment
+            {
+                SfaContributionPercentage = 1m,
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 4, 1)
+            };
+
+            levyBalanceServiceMock.Setup(s => s.TryFund(100)).Returns(100).Verifiable();
+
+            // act
+            var payments = processor.Process(requiredPayment);
+
+            // assert
+            payments.Should().HaveCount(1);
+            payments[0].AmountDue.Should().Be(100);
+            payments[0].Type.Should().Be(FundingSourceType.Levy);
+        }
+
+        [Test]
+        public void TestProcessPaymentWithPartialSfaContributionAndStartDateBeforeCutOffStillUsesLevyFunds()
+        {
+            // arrange
+            var requiredPayment = new RequiredPayment
+            {
+                SfaContributionPercentage = .9m,
+                AmountDue = 100,
+                StartDate = new DateTime(2024, 3, 31)
+            };
+
+            levyBalanceServiceMock.Setup(s => s.TryFund(100)).Returns(100).Verifiable();
+
+            // act
+            var payments = processor.Process(requiredPayment);
+
+            // assert
+            payments.Should().HaveCount(1);
+            payments[0].AmountDue.Should().Be(100);
+            payments[0].Type.Should().Be(FundingSourceType.Levy);
         }
 
         [Test]

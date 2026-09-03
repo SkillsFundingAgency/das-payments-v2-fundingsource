@@ -31,7 +31,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.Builders
                 IsTransfer = employerAccountId != requiredPaymentEvent.AccountId
                              && requiredPaymentEvent.TransferSenderAccountId.HasValue
                              && requiredPaymentEvent.TransferSenderAccountId == employerAccountId,
-                FundingPlatformType = requiredPaymentEvent.FundingPlatformType
+                FundingPlatformType = requiredPaymentEvent.FundingPlatformType,
+                StartDate = requiredPaymentEvent.StartDate
             };
 
             var fundingSourcePayments = processor.Process(requiredPayment);
