@@ -58,7 +58,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 LearningStartDate = DateTime.Today.AddYears(-1),
                 NumberOfInstalments = 12,
                 PlannedEndDate = DateTime.Today,
-                StartDate = DateTime.Today.AddYears(-1)
+                StartDate = DateTime.Today.AddYears(-1),
+                ExternalEarningsId = Guid.NewGuid()
             };
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
@@ -70,6 +71,23 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             var destination =
                 autoMapper.Map<CalculateOnProgrammePayment, CalculatedRequiredLevyAmount>(onProgrammePaymentCommand);
             destination.Should().BeEquivalentTo(onProgrammePaymentCommand);
+        }
+
+        [Test]
+        public void Maps_ExternalEarningsId()
+        {
+            var destination =
+                autoMapper.Map<CalculateOnProgrammePayment, CalculatedRequiredLevyAmount>(onProgrammePaymentCommand);
+            destination.ExternalEarningsId.Should().Be(onProgrammePaymentCommand.ExternalEarningsId);
+        }
+
+        [Test]
+        public void Maps_ExternalEarningsId_WhenNull()
+        {
+            onProgrammePaymentCommand.ExternalEarningsId = null;
+            var destination =
+                autoMapper.Map<CalculateOnProgrammePayment, CalculatedRequiredLevyAmount>(onProgrammePaymentCommand);
+            destination.ExternalEarningsId.Should().BeNull();
         }
 
         [TestCase(OnProgrammeEarningType.Learning, TransactionType.Learning)]
@@ -148,7 +166,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 AgeAtStartOfLearning = 17,
                 CourseType = CourseType.Apprenticeship,
                 FundingPlatformType = FundingPlatformType.DigitalApprenticeshipService,
-                ReportingAimFundingLineType = "funding line type"
+                ReportingAimFundingLineType = "funding line type",
+                ExternalEarningsId = Guid.NewGuid()
             };
             mapperConfiguration = AutoMapperConfigurationFactory.CreateMappingConfig();
             autoMapper = mapperConfiguration.CreateMapper();
@@ -188,6 +207,42 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             actualEvent.LearningAim.LearningType.Should().Be(expectedEvent.LearningAim.LearningType);
             actualEvent.CourseType.Should().Be(expectedEvent.CourseType);
             actualEvent.LearningAim.LearningType.Should().Be(learningType);
+            actualEvent.ExternalEarningsId.Should().Be(expectedEvent.ExternalEarningsId);
+            actualEvent.ExternalEarningsId.Should().Be(requiredPaymentEvent.ExternalEarningsId);
+        }
+
+        [TestCase(LearningType.Apprenticeship)]
+        [TestCase(LearningType.ApprenticeshipUnit)]
+        public void TestMapToValidTransferFundingSourcePaymentEvent(LearningType learningType)
+        {
+            requiredPaymentEvent.LearningAim.LearningType = learningType;
+            var expectedEvent = new TransferFundingSourcePaymentEvent
+            {
+                AgreementId = "11"
+            };
+
+            PopulateCommonProperties(expectedEvent);
+
+            var actualEvent = new TransferFundingSourcePaymentEvent
+            {
+                AmountDue = 55,
+                FundingSourceType = FundingSourceType.Levy
+            };
+
+            // act
+            autoMapper.Map(requiredPaymentEvent, actualEvent);
+
+            // assert
+            actualEvent.EventTime.Should().NotBe(expectedEvent.EventTime);
+            actualEvent.EventId.Should().NotBe(expectedEvent.EventId);
+            actualEvent.EventTime = expectedEvent.EventTime;
+            actualEvent.EventId = expectedEvent.EventId;
+            actualEvent.Should().BeEquivalentTo(expectedEvent);
+            actualEvent.AgeAtStartOfLearning.Should().Be(17);
+            actualEvent.LearningAim.LearningType.Should().Be(learningType);
+            actualEvent.CourseType.Should().Be(expectedEvent.CourseType);
+            actualEvent.ExternalEarningsId.Should().Be(expectedEvent.ExternalEarningsId);
+            actualEvent.ExternalEarningsId.Should().Be(requiredPaymentEvent.ExternalEarningsId);
         }
 
         [TestCase(LearningType.Apprenticeship)]
@@ -198,7 +253,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             var expectedEvent = new SfaCoInvestedFundingSourcePaymentEvent();
             PopulateCommonProperties(expectedEvent);
 
-            var actualEvent = new LevyFundingSourcePaymentEvent
+            var actualEvent = new SfaCoInvestedFundingSourcePaymentEvent
             {
                 AmountDue = 55,
                 FundingSourceType = FundingSourceType.Levy
@@ -215,6 +270,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             actualEvent.Should().BeEquivalentTo(expectedEvent);
             actualEvent.AgeAtStartOfLearning.Should().Be(17);
             actualEvent.LearningAim.LearningType.Should().Be(learningType);
+            actualEvent.ExternalEarningsId.Should().Be(expectedEvent.ExternalEarningsId);
+            actualEvent.ExternalEarningsId.Should().Be(requiredPaymentEvent.ExternalEarningsId);
         }
 
         [TestCase(LearningType.Apprenticeship)]
@@ -225,7 +282,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             var expectedEvent = new EmployerCoInvestedFundingSourcePaymentEvent();
             PopulateCommonProperties(expectedEvent);
 
-            var actualEvent = new LevyFundingSourcePaymentEvent
+            var actualEvent = new EmployerCoInvestedFundingSourcePaymentEvent
             {
                 AmountDue = 55,
                 FundingSourceType = FundingSourceType.Levy
@@ -242,6 +299,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             actualEvent.Should().BeEquivalentTo(expectedEvent);
             actualEvent.AgeAtStartOfLearning.Should().Be(17);
             actualEvent.LearningAim.LearningType.Should().Be(learningType);
+            actualEvent.ExternalEarningsId.Should().Be(expectedEvent.ExternalEarningsId);
+            actualEvent.ExternalEarningsId.Should().Be(requiredPaymentEvent.ExternalEarningsId);
         }
 
         [TestCase(LearningType.Apprenticeship)]
@@ -252,7 +311,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             var expectedEvent = new SfaFullyFundedFundingSourcePaymentEvent();
             PopulateCommonProperties(expectedEvent);
 
-            var actualEvent = new LevyFundingSourcePaymentEvent
+            var actualEvent = new SfaFullyFundedFundingSourcePaymentEvent
             {
                 AmountDue = 55,
                 FundingSourceType = FundingSourceType.Levy
@@ -269,6 +328,32 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             actualEvent.Should().BeEquivalentTo(expectedEvent);
             actualEvent.AgeAtStartOfLearning.Should().Be(17);
             actualEvent.LearningAim.LearningType.Should().Be(learningType);
+            actualEvent.ExternalEarningsId.Should().Be(expectedEvent.ExternalEarningsId);
+            actualEvent.ExternalEarningsId.Should().Be(requiredPaymentEvent.ExternalEarningsId);
+        }
+
+        [Test]
+        public void Maps_NullExternalEarningsId_ToAllPublishedFundingSourcePaymentEventTypes()
+        {
+            requiredPaymentEvent.ExternalEarningsId = null;
+
+            var levyEvent = new LevyFundingSourcePaymentEvent();
+            var transferEvent = new TransferFundingSourcePaymentEvent();
+            var sfaCoInvestedEvent = new SfaCoInvestedFundingSourcePaymentEvent();
+            var employerCoInvestedEvent = new EmployerCoInvestedFundingSourcePaymentEvent();
+            var sfaFullyFundedEvent = new SfaFullyFundedFundingSourcePaymentEvent();
+
+            autoMapper.Map(requiredPaymentEvent, levyEvent);
+            autoMapper.Map(requiredPaymentEvent, transferEvent);
+            autoMapper.Map(requiredPaymentEvent, sfaCoInvestedEvent);
+            autoMapper.Map(requiredPaymentEvent, employerCoInvestedEvent);
+            autoMapper.Map(requiredPaymentEvent, sfaFullyFundedEvent);
+
+            levyEvent.ExternalEarningsId.Should().BeNull();
+            transferEvent.ExternalEarningsId.Should().BeNull();
+            sfaCoInvestedEvent.ExternalEarningsId.Should().BeNull();
+            employerCoInvestedEvent.ExternalEarningsId.Should().BeNull();
+            sfaFullyFundedEvent.ExternalEarningsId.Should().BeNull();
         }
 
         private void PopulateCommonProperties(FundingSourcePaymentEvent expectedEvent)
@@ -299,6 +384,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             expectedEvent.FundingPlatformType = requiredPaymentEvent.FundingPlatformType;
             expectedEvent.CourseType = requiredPaymentEvent.CourseType;
             expectedEvent.ReportingAimFundingLineType = requiredPaymentEvent.ReportingAimFundingLineType;
+            expectedEvent.ExternalEarningsId = requiredPaymentEvent.ExternalEarningsId;
         }
     }
 }
