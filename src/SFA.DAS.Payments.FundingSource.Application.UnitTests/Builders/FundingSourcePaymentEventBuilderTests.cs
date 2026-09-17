@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
@@ -20,6 +21,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Builders
         private long jobId;
         private decimal sfaContributionPercentage;
         private decimal amountDue;
+        private DateTime startDate;
 
         private Mock<IMapper> mapper;
         private Mock<IPaymentProcessor> processor;
@@ -37,6 +39,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Builders
             sfaContributionPercentage = 0.44m;
             amountDue = 3000m;
             transferSenderEmployerAccountId = 219;
+            startDate = new DateTime(2024, 4, 1);
 
             mapper = new Mock<IMapper>();
             processor = new Mock<IPaymentProcessor>();
@@ -53,7 +56,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Builders
                 AmountDue = amountDue,
                 AgreementId = "Agreement Two",
                 SfaContributionPercentage = sfaContributionPercentage,
-                TransferSenderAccountId = transferSenderEmployerAccountId
+                TransferSenderAccountId = transferSenderEmployerAccountId,
+                StartDate = startDate
             };
 
             fundingSourcePayments = new List<FundingSourcePayment>
@@ -75,6 +79,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Builders
                 rp.SfaContributionPercentage == sfaContributionPercentage
                 && rp.AmountDue == amountDue
                 && rp.IsTransfer
+                && rp.StartDate == startDate
             )), Times.Once);
 
             mapper.VerifyAll();

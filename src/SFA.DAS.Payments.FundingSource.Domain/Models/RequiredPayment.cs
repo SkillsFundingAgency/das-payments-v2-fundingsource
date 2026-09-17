@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Payments.Model.Core.Entities;
+﻿using System;
+using SFA.DAS.Payments.Model.Core.Entities;
 
 namespace SFA.DAS.Payments.FundingSource.Domain.Models
 {
@@ -8,5 +9,6 @@ namespace SFA.DAS.Payments.FundingSource.Domain.Models
         public decimal AmountDue { get; set; }
         public bool IsTransfer { get; set; }
         public FundingPlatformType FundingPlatformType { get; set; }
+        public DateTime StartDate { get; set; }
     }
 }

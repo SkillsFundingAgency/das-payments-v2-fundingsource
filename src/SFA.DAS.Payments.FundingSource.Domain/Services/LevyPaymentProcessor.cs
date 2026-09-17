@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SFA.DAS.Payments.Core;
 using SFA.DAS.Payments.FundingSource.Domain.Interface;
 using SFA.DAS.Payments.FundingSource.Domain.Models;
@@ -8,6 +9,8 @@ namespace SFA.DAS.Payments.FundingSource.Domain.Services
 {
     public class LevyPaymentProcessor : ILevyPaymentProcessor
     {
+        private static readonly DateTime CoInvestmentRulesCutOffDate = new DateTime(2024, 4, 1);
+
         private readonly ILevyBalanceService levyBalanceService;
 
         public LevyPaymentProcessor(ILevyBalanceService levyBalanceService)
@@ -17,7 +20,8 @@ namespace SFA.DAS.Payments.FundingSource.Domain.Services
 
         public IReadOnlyList<FundingSourcePayment> Process(RequiredPayment requiredPayment)
         {
-            if (requiredPayment.SfaContributionPercentage == 1)
+            // Learners with 100% SFA contribution who started before the co-investment rules cut-off are small employers and shouldn't draw on the levy balance.
+            if (requiredPayment.SfaContributionPercentage == 1 && requiredPayment.StartDate < CoInvestmentRulesCutOffDate)
             {
                 return new FundingSourcePayment[0];
             }
