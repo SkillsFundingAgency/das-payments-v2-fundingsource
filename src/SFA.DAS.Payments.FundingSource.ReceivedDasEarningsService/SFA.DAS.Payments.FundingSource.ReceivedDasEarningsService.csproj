@@ -14,6 +14,7 @@
     <ServicePackagePrefix>$(MSBuildProjectName)</ServicePackagePrefix>
     <FabActUtilWorkingDir>$(BaseIntermediateOutputPath)\FabActUtilTemp</FabActUtilWorkingDir>
     <GenerateRuntimeConfigDevFile>true</GenerateRuntimeConfigDevFile>
+	<SelfContained>True</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
