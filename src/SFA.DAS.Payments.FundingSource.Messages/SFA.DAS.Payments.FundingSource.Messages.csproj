@@ -4,6 +4,7 @@
 		<TargetFrameworks>net472;net6.0;net8.0</TargetFrameworks>
 		<FileVersion></FileVersion>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<SelfContained>True</SelfContained>
 	</PropertyGroup>
 
 	<ItemGroup>
