@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
-    <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
+	  <TargetFramework>net8.0</TargetFramework>
+      <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
+	  <SelfContained>True</SelfContained>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,8 +16,8 @@
 
     <PackageReference Include="SFA.DAS.Payments.DataLocks.Messages" Version="0.2.4" />
     <PackageReference Include="SFA.DAS.Payments.EarningEvents.Messages" Version="2.0.1" />
-    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.4.1-prerelease-62" />
-    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.4.1-prerelease-62" />
+    <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="2.5.1" />
+    <PackageReference Include="SFA.DAS.Payments.Model.Core" Version="2.5.1" />
     <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Messages" Version="0.5.8" />
     <PackageReference Include="SFA.DAS.Payments.RequiredPayments.Messages" Version="2.0.11-prerelease-35" />
   </ItemGroup>
