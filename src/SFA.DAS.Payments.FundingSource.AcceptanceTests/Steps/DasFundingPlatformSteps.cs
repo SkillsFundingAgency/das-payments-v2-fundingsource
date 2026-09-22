@@ -38,7 +38,14 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
         [When("a calculate on programme payment command is received")]
         public async Task WhenACalculateOnProgrammePaymentCommandIsReceived()
         {
-            SetupCalculateOnProgrammePaymentCommand();
+            SetupCalculateOnProgrammePaymentCommand(Guid.NewGuid());
+            await MessageSession.Send(calculatedOnProgrammePaymentCommand).ConfigureAwait(false);
+        }
+
+        [When("a calculate on programme payment command is received with no ExternalEarningsId")]
+        public async Task WhenACalculateOnProgrammePaymentCommandIsReceivedWithNoExternalEarningsId()
+        {
+            SetupCalculateOnProgrammePaymentCommand(null);
             await MessageSession.Send(calculatedOnProgrammePaymentCommand).ConfigureAwait(false);
         }
 
@@ -46,11 +53,21 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
         public async Task ThenAFundingSourceLevyTransactionIsCreated()
         {
             await WaitForIt(() => fundingSourceHelper.GetLevyTransactions(TestSession.Ukprn, collectionPeriod)
-                    .Any(x => x.FundingPlatformType == calculatedOnProgrammePaymentCommand.FundingPlatformType),
-                "Failed to wait for levy account transactions with funding platform set to DAS");
+                    .Any(x => x.FundingPlatformType == calculatedOnProgrammePaymentCommand.FundingPlatformType
+                              && x.ExternalEarningsId == calculatedOnProgrammePaymentCommand.ExternalEarningsId),
+                "Failed to wait for levy account transactions with funding platform set to DAS and matching ExternalEarningsId");
         }
 
-        private void SetupCalculateOnProgrammePaymentCommand()
+        [Then("a funding source levy transaction is created for the calculated payment with a null ExternalEarningsId")]
+        public async Task ThenAFundingSourceLevyTransactionIsCreatedWithANullExternalEarningsId()
+        {
+            await WaitForIt(() => fundingSourceHelper.GetLevyTransactions(TestSession.Ukprn, collectionPeriod)
+                    .Any(x => x.FundingPlatformType == calculatedOnProgrammePaymentCommand.FundingPlatformType
+                              && x.ExternalEarningsId == null),
+                "Failed to wait for levy account transactions with funding platform set to DAS and a null ExternalEarningsId");
+        }
+
+        private void SetupCalculateOnProgrammePaymentCommand(Guid? externalEarningsId)
         {
             collectionPeriod = new CollectionPeriod { AcademicYear = 2324, Period = 1 };
 
@@ -107,7 +124,8 @@ namespace SFA.DAS.Payments.FundingSource.AcceptanceTests.Steps
                     StandardCode = learningAim.StandardCode
                 },
                 CollectionPeriod = collectionPeriod,
-                FundingPlatformType = FundingPlatformType.DigitalApprenticeshipService
+                FundingPlatformType = FundingPlatformType.DigitalApprenticeshipService,
+                ExternalEarningsId = externalEarningsId
             };
         }
     }

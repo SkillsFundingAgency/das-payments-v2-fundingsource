@@ -166,7 +166,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 calculatedRequiredLevyAmount.FundingPlatformType == levyTransactionModel.FundingPlatformType &&
                 calculatedRequiredLevyAmount.CourseType == levyTransactionModel.CourseType &&
                 (calculatedRequiredLevyAmount.LearningAim.CourseCode ?? "") == (levyTransactionModel.CourseCode ?? "") &&
-                calculatedRequiredLevyAmount.LearningAim.LearningType == levyTransactionModel.LearningType
+                calculatedRequiredLevyAmount.LearningAim.LearningType == levyTransactionModel.LearningType &&
+                calculatedRequiredLevyAmount.ExternalEarningsId == levyTransactionModel.ExternalEarningsId
             );
         }
 
@@ -202,7 +203,8 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Service
                 levyTransactionModel.LearningStartDate == calculatedOnProgrammePayment.LearningStartDate &&
                 levyTransactionModel.SfaContributionPercentage == calculatedOnProgrammePayment.SfaContributionPercentage &&
                 levyTransactionModel.TransactionType == (TransactionType)calculatedOnProgrammePayment.OnProgrammeEarningType &&
-                levyTransactionModel.FundingPlatformType == calculatedOnProgrammePayment.FundingPlatformType);
+                levyTransactionModel.FundingPlatformType == calculatedOnProgrammePayment.FundingPlatformType &&
+                levyTransactionModel.ExternalEarningsId == calculatedOnProgrammePayment.ExternalEarningsId);
         }
 
         private class SqlExceptionCreator

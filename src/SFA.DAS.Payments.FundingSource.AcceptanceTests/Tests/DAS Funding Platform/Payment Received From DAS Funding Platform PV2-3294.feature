@@ -8,3 +8,11 @@ Scenario: A calculate on programme payment message is received
 	And the SFA contribution percentage is 100%
 	When a calculate on programme payment command is received
 	Then a funding source levy transaction is created for the calculated payment
+
+Scenario: A calculate on programme payment message is received with no ExternalEarningsId
+	Given the current collection period is R1
+	And the payments are for the current collection year
+	And a learner is undertaking a training with a training provider
+	And the SFA contribution percentage is 100%
+	When a calculate on programme payment command is received with no ExternalEarningsId
+	Then a funding source levy transaction is created for the calculated payment with a null ExternalEarningsId

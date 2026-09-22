@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.FundingSource.Application.Infrastructure.Configuration;
@@ -57,6 +58,32 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             var sfaFullyFundedFundingSourcePaymentEvent = autoMapper.Map<SfaFullyFundedFundingSourcePaymentEvent>(calculatedRequiredIncentiveAmount);
 
             sfaFullyFundedFundingSourcePaymentEvent.FundingPlatformType.Should().Be(FundingPlatformType.SubmitLearnerData);
+        }
+
+        [Test]
+        public void CalculatedRequiredIncentiveAmount_Maps_ExternalEarningsId_For_SfaFullyFundedFundingSourcePaymentEvent()
+        {
+            var calculatedRequiredIncentiveAmount = new CalculatedRequiredIncentiveAmount
+            {
+                ExternalEarningsId = Guid.NewGuid()
+            };
+
+            var sfaFullyFundedFundingSourcePaymentEvent = autoMapper.Map<SfaFullyFundedFundingSourcePaymentEvent>(calculatedRequiredIncentiveAmount);
+
+            sfaFullyFundedFundingSourcePaymentEvent.ExternalEarningsId.Should().Be(calculatedRequiredIncentiveAmount.ExternalEarningsId);
+        }
+
+        [Test]
+        public void CalculatedRequiredIncentiveAmount_Maps_NullExternalEarningsId_For_SfaFullyFundedFundingSourcePaymentEvent()
+        {
+            var calculatedRequiredIncentiveAmount = new CalculatedRequiredIncentiveAmount
+            {
+                ExternalEarningsId = null
+            };
+
+            var sfaFullyFundedFundingSourcePaymentEvent = autoMapper.Map<SfaFullyFundedFundingSourcePaymentEvent>(calculatedRequiredIncentiveAmount);
+
+            sfaFullyFundedFundingSourcePaymentEvent.ExternalEarningsId.Should().BeNull();
         }
 
         [TestCase(FundingPlatformType.SubmitLearnerData)]
