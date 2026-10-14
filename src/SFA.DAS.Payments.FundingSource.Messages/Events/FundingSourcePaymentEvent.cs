@@ -21,7 +21,9 @@ namespace SFA.DAS.Payments.FundingSource.Messages.Events
         public FundingPlatformType FundingPlatformType { get; set; }
 
         public CourseType CourseType { get; set; }
-        
+
+        public Guid? ExternalEarningsId { get; set; }
+
         private static Type[] inheritors;
         private static Type[] GetInheritors()
         {
