@@ -86,6 +86,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 PriceEpisodeIdentifier = requiredCoInvestedAmount.PriceEpisodeIdentifier,
                 Ukprn = requiredCoInvestedAmount.Ukprn,
                 FundingSourceType = FundingSourceType.CoInvestedSfa,
+                CourseType = requiredCoInvestedAmount.CourseType,
                 AccountId = 1000000,
                 ApprenticeshipEmployerType = requiredCoInvestedAmount.ApprenticeshipEmployerType,
                 FundingPlatformType = fundingPlatformType
@@ -133,6 +134,7 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
                 PriceEpisodeIdentifier = requiredCoInvestedAmount.PriceEpisodeIdentifier,
                 Ukprn = requiredCoInvestedAmount.Ukprn,
                 FundingSourceType = FundingSourceType.CoInvestedEmployer,
+                CourseType = requiredCoInvestedAmount.CourseType,
                 AccountId = 1000000,
                 ApprenticeshipEmployerType = requiredCoInvestedAmount.ApprenticeshipEmployerType,
                 FundingPlatformType = fundingPlatformType
@@ -145,6 +147,40 @@ namespace SFA.DAS.Payments.FundingSource.Application.UnitTests.Mapper
             expectedPayment.EventTime = actual.EventTime;
             actual.Should().BeEquivalentTo(expectedPayment);
             actual.LearningAim.LearningType.Should().Be(learningType);
+        }
+
+        [TestCase(CourseType.ShortCourse)]
+        [TestCase(CourseType.Apprenticeship)]
+        [TestCase(CourseType.FunctionalSkill)]
+        public void ShouldCarryCourseTypeToSfaCoInvestedFundingSourcePaymentEvent(CourseType courseType)
+        {
+            requiredCoInvestedAmount.CourseType = courseType;
+            var coInvestedPayment = new SfaCoInvestedPayment
+            {
+                AmountDue = 900.00m,
+                Type = FundingSourceType.CoInvestedSfa
+            };
+
+            var actual = coInvestedFundingMapper.MapToCoInvestedPaymentEvent(requiredCoInvestedAmount, coInvestedPayment);
+
+            actual.CourseType.Should().Be(courseType);
+        }
+
+        [TestCase(CourseType.ShortCourse)]
+        [TestCase(CourseType.Apprenticeship)]
+        [TestCase(CourseType.FunctionalSkill)]
+        public void ShouldCarryCourseTypeToEmployerCoInvestedFundingSourcePaymentEvent(CourseType courseType)
+        {
+            requiredCoInvestedAmount.CourseType = courseType;
+            var coInvestedPayment = new EmployerCoInvestedPayment
+            {
+                AmountDue = 100.00m,
+                Type = FundingSourceType.CoInvestedEmployer
+            };
+
+            var actual = coInvestedFundingMapper.MapToCoInvestedPaymentEvent(requiredCoInvestedAmount, coInvestedPayment);
+
+            actual.CourseType.Should().Be(courseType);
         }
 
         [TestCase(FundingPlatformType.SubmitLearnerData)]
